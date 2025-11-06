@@ -196,6 +196,34 @@ body {
 /* ==========================================================================
    Utility Animations
    ========================================================================== */
+.logo-mark {
+    display: block;
+    color: #f9fafb;
+}
+
+.logo-preloader {
+    filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.35));
+}
+
+.animate-logo-spin {
+    animation: pinte-logo-spin 3s ease-in-out infinite;
+}
+
+@keyframes pinte-logo-spin {
+    0% {
+        transform: rotate(0deg) scale(0.95);
+        opacity: 0.85;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg) scale(0.95);
+        opacity: 0.85;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -204,5 +232,9 @@ body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+
+    .animate-logo-spin {
+        animation: none !important;
     }
 }
