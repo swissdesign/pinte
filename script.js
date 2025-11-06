@@ -46,13 +46,20 @@ const commentsField = document.getElementById('comments');
 document.addEventListener('DOMContentLoaded', initialiseApp);
 
 function initialiseApp() {
-    if (!eventsGrid) {
-        console.error('Events grid element not found.');
-        return;
-    }
+    try {
+        if (!eventsGrid) {
+            console.error('Events grid element not found.');
+            setLoading(false);
+            return;
+        }
 
-    attachEventListeners();
-    fetchEvents();
+        attachEventListeners();
+        fetchEvents();
+    } catch (error) {
+        console.error('Application failed to initialise:', error);
+        setLoading(false);
+        prependBanner('Die Seite konnte nicht vollständig geladen werden. Bitte lade sie erneut.', 'text-red-300 text-center col-span-full', 'initialise-error');
+    }
 }
 
 /* ==========================================================================
