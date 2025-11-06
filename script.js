@@ -61,6 +61,28 @@ function initialiseApp() {
             console.warn('Events grid element not found. Skipping event initialisation.');
             setLoading(false);
         }
+
+        attachEventListeners();
+        fetchEvents();
+
+        // Hiding Navbar Logic
+        let lastScrollY = window.scrollY;
+        const header = document.querySelector('header');
+
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    if (lastScrollY < window.scrollY) {
+                        header.classList.add('-translate-y-full');
+                    } else {
+                        header.classList.remove('-translate-y-full');
+                    }
+                } else {
+                    header.classList.remove('-translate-y-full');
+                }
+                lastScrollY = window.scrollY;
+            });
+        }
     } catch (error) {
         console.error('Application failed to initialise:', error);
         setLoading(false);
