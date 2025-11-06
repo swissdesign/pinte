@@ -307,23 +307,6 @@ async function handleBookingSubmit(event) {
     bookingMessage.textContent = '';
     bookingMessage.classList.remove('success', 'error');
 
-
-    setModalVisibility(bookingModal, bookingModalContent, true);
-}
-
-function closeBookingModal() {
-    setModalVisibility(bookingModal, bookingModalContent, false);
-    restoreFocus();
-}
-
-async function handleBookingSubmit(event) {
-    event.preventDefault();
-
-    bookingSubmitButton.disabled = true;
-    bookingSubmitButton.textContent = 'Sende...';
-    bookingMessage.textContent = '';
-    bookingMessage.classList.remove('success', 'error');
-
     const formData = new FormData(bookingForm);
     const payload = {
         name: formData.get('name'),
@@ -412,8 +395,6 @@ function attachEventListeners() {
     if (filtersContainer) {
         filtersContainer.addEventListener('click', handleFilterClick);
         filtersContainer.addEventListener('keydown', filterKeydownHandler);
-
-      codex/refactor-html,-css,-and-js-files-mefy1d
     } else {
         console.warn('Filters container element not found.');
     }
@@ -476,40 +457,6 @@ function handleFilterClick(event) {
         button.dataset.active = isActive.toString();
     });
 
-    }
-
-    modalCloseButton.addEventListener('click', closeEventModal);
-    eventModal.addEventListener('click', event => {
-        if (event.target === eventModal) {
-            closeEventModal();
-        }
-    });
-
-    openBookingModalButton.addEventListener('click', () => openBookingModal());
-    bookingCloseButton.addEventListener('click', closeBookingModal);
-    bookingModal.addEventListener('click', event => {
-        if (event.target === bookingModal) {
-            closeBookingModal();
-        }
-    });
-
-    bookingForm.addEventListener('submit', handleBookingSubmit);
-}
-
-function handleFilterClick(event) {
-    const targetButton = event.target.closest('button.filter-btn');
-    if (!targetButton) {
-        return;
-    }
-
-    state.currentFilter = targetButton.dataset.filter;
-
-    document.querySelectorAll('.filter-btn').forEach(button => {
-        const isActive = normaliseCategory(button.dataset.filter) === normaliseCategory(state.currentFilter);
-        button.dataset.active = isActive.toString();
-    });
-
-main
     renderEvents();
 }
 
@@ -549,7 +496,6 @@ function handleEscapeKey(event) {
    Utility Helpers
    ========================================================================== */
 function setLoading(isLoading) {
-codex/refactor-html,-css,-and-js-files-mefy1d
     if (!loadingSpinner) {
         return;
     }
@@ -570,11 +516,6 @@ codex/refactor-html,-css,-and-js-files-mefy1d
                 }
             });
         }
-    if (isLoading) {
-        loadingSpinner.removeAttribute('hidden');
-    } else {
-        loadingSpinner.setAttribute('hidden', '');
-main
     }
 }
 
