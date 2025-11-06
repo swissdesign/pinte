@@ -16,10 +16,10 @@
     <!-- 3. Custom Styling & Font Configuration -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-900 text-gray-200 min-h-screen">
+<body class="bg-neutral-900 text-neutral-200 min-h-screen">
 
     <!-- Loading Spinner -->
-    <div id="loadingSpinner" class="fixed inset-0 bg-gray-900 bg-opacity-80 flex flex-col items-center justify-center z-[100] gap-6" role="status" aria-live="polite">
+    <div id="loadingSpinner" class="fixed inset-0 bg-neutral-900 bg-opacity-80 flex flex-col items-center justify-center z-[100] gap-6" role="status" aria-live="polite">
      <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 1077.17 1077.17" fill="currentColor" aria-hidden="true">
   <rect x="186.36" y="604.69" width="715.26" height="19.81"/>
   <rect x="186.36" y="584.89" width="715.26" height="6.62"/>
@@ -35,7 +35,7 @@
     <a href="#events" class="skip-link">Zum Eventbereich springen</a>
 
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-gray-900 bg-opacity-80 backdrop-blur-md border-b border-gray-700">
+    <header class="sticky top-0 z-40 bg-neutral-900 bg-opacity-80 backdrop-blur-md border-b border-neutral-700 transition-transform duration-300">
         <nav class="container mx-auto px-4 py-4 flex justify-between items-center" aria-label="Hauptnavigation">
             <a href="#" class="flex items-center" aria-label="Pinte Startseite">
                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 1077.17 1077.17" fill="currentColor" aria-hidden="true">
@@ -49,14 +49,14 @@
             </a>
 
             <div class="hidden md:flex space-x-6">
-                <a href="#events" class="text-gray-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Events</a>
-                <a href="#" class="text-gray-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Menü</a>
-                <a href="#" class="text-gray-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Galerie</a>
-                <a href="#" class="text-gray-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Kontakt</a>
+                <a href="#events" class="text-neutral-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Events</a>
+                <a href="#" class="text-neutral-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Menü</a>
+                <a href="#" class="text-neutral-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Galerie</a>
+                <a href="#" class="text-neutral-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Kontakt</a>
             </div>
-            <button id="openBookingModal" class="bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Platz sichern</button>
+            <button id="openBookingModal" class="bg-yellow-500 text-neutral-900 font-bold py-2 px-4 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Platz sichern</button>
             <!-- Mobile Menu Button (placeholder) -->
-            <button class="md:hidden bg-gray-800 p-2 rounded-lg" aria-label="Mobiles Menü öffnen">
+            <button class="md:hidden bg-neutral-800 p-2 rounded-lg" aria-label="Mobiles Menü öffnen">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
@@ -76,8 +76,12 @@
             <button class="filter-btn" data-filter="Club Night" data-active="false">Club-Nacht</button>
         </div>
 
+        <div class="mb-6 max-w-md mx-auto">
+            <input type="search" id="searchBox" placeholder="Suche nach Events, DJs, Tags..." class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+        </div>
+
         <!-- Event Calendar Grid -->
-        <section id="events-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 auto-rows-[minmax(150px,auto)]" aria-live="polite">
+        <section id="events-grid" class="grid grid-cols-3 gap-6 auto-rows-[minmax(150px,auto)]" aria-live="polite">
             <!-- Event cards will be dynamically inserted here by JavaScript -->
         </section>
 
@@ -85,17 +89,17 @@
 
     <!-- Event Detail Modal -->
     <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" aria-hidden="true">
-        <div id="eventModalContent" class="bg-gray-800 rounded-lg shadow-2xl w-full max-w-2xl overflow-hidden" tabindex="-1">
+        <div id="eventModalContent" class="bg-neutral-800 rounded-lg shadow-2xl w-full max-w-2xl overflow-hidden" tabindex="-1">
             <img id="modalImage" src="" alt="" class="w-full h-64 object-cover">
             <div class="p-6">
                 <h2 id="modalTitle" class="text-4xl font-chalk text-yellow-400 mb-2"></h2>
-                <span id="modalDate" class="block text-lg text-gray-300 mb-4"></span>
-                <p id="modalDescription" class="text-gray-300 mb-6"></p>
+                <span id="modalDate" class="block text-lg text-neutral-300 mb-4"></span>
+                <p id="modalDescription" class="text-neutral-300 mb-6"></p>
                 <div class="flex flex-wrap gap-4 justify-between items-center">
-                    <button id="modalClose" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-500 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Schließen</button>
+                    <button id="modalClose" class="bg-neutral-600 text-white py-2 px-6 rounded-lg hover:bg-neutral-500 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Schließen</button>
                     <!-- Button container: Only one of the next two will be shown -->
                     <div class="flex gap-2">
-                        <button id="modalBook" class="bg-yellow-500 text-gray-900 font-bold py-2 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Platz reservieren</button>
+                        <button id="modalBook" class="bg-yellow-500 text-neutral-900 font-bold py-2 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Platz reservieren</button>
                         <a id="modalPhotos" href="#" target="_blank" class="hidden bg-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-blue-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-200">Fotos ansehen</a>
                     </div>
                 </div>
@@ -105,44 +109,44 @@
 
     <!-- Booking Modal -->
     <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle" aria-describedby="bookingMessage" aria-hidden="true">
-        <div id="bookingModalContent" class="bg-gray-800 rounded-lg shadow-2xl w-full max-w-lg p-6" tabindex="-1">
+        <div id="bookingModalContent" class="bg-neutral-800 rounded-lg shadow-2xl w-full max-w-lg p-6" tabindex="-1">
             <h2 id="bookingModalTitle" class="text-3xl font-chalk text-yellow-400 mb-6">Tisch reservieren</h2>
             <form id="bookingForm" novalidate>
                 <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Vollständiger Name</label>
-                    <input type="text" id="name" name="name" required autocomplete="name" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    <label for="name" class="block text-sm font-medium text-neutral-300 mb-1">Vollständiger Name</label>
+                    <input type="text" id="name" name="name" required autocomplete="name" class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
                 </div>
                 <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">E-Mail</label>
-                    <input type="email" id="email" name="email" required autocomplete="email" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    <label for="email" class="block text-sm font-medium text-neutral-300 mb-1">E-Mail</label>
+                    <input type="email" id="email" name="email" required autocomplete="email" class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label for="date" class="block text-sm font-medium text-gray-300 mb-1">Datum</label>
-                        <input type="date" id="date" name="date" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" style="color-scheme: dark;">
+                        <label for="date" class="block text-sm font-medium text-neutral-300 mb-1">Datum</label>
+                        <input type="date" id="date" name="date" required class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" style="color-scheme: dark;">
                     </div>
                     <div>
-                        <label for="time" class="block text-sm font-medium text-gray-300 mb-1">Uhrzeit</label>
-                        <input type="time" id="time" name="time" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" style="color-scheme: dark;">
+                        <label for="time" class="block text-sm font-medium text-neutral-300 mb-1">Uhrzeit</label>
+                        <input type="time" id="time" name="time" required class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" style="color-scheme: dark;">
                     </div>
                 </div>
                 <div class="mb-4">
-                    <label for="guests" class="block text-sm font-medium text-gray-300 mb-1">Anzahl der Gäste</label>
-                    <input type="number" id="guests" name="guests" min="1" max="20" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    <label for="guests" class="block text-sm font-medium text-neutral-300 mb-1">Anzahl der Gäste</label>
+                    <input type="number" id="guests" name="guests" min="1" max="20" required class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
                 </div>
                 <div class="mb-4">
-                    <label for="comments" class="block text-sm font-medium text-gray-300 mb-1">Anmerkungen (z.B. bestimmtes Event)</label>
-                    <textarea id="comments" name="comments" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></textarea>
+                    <label for="comments" class="block text-sm font-medium text-neutral-300 mb-1">Anmerkungen (z.B. bestimmtes Event)</label>
+                    <textarea id="comments" name="comments" rows="3" class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></textarea>
                 </div>
                 <div class="mb-4">
                     <label class="flex items-center">
-                        <input type="checkbox" id="consent" name="consent" class="h-4 w-4 bg-gray-700 border-gray-600 rounded text-yellow-500 focus:ring-yellow-500">
-                        <span class="ml-2 text-sm text-gray-400">Melde mich für den wöchentlichen "Was ist los"-Newsletter an.</span>
+                        <input type="checkbox" id="consent" name="consent" class="h-4 w-4 bg-neutral-700 border-neutral-600 rounded text-yellow-500 focus:ring-yellow-500">
+                        <span class="ml-2 text-sm text-neutral-400">Melde mich für den wöchentlichen "Was ist los"-Newsletter an.</span>
                     </label>
                 </div>
                 <div class="flex flex-wrap gap-2 justify-between items-center">
-                    <button type="button" id="bookingClose" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-500 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Abbrechen</button>
-                    <button type="submit" id="bookingSubmit" class="bg-yellow-500 text-gray-900 font-bold py-2 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Anfrage senden</button>
+                    <button type="button" id="bookingClose" class="bg-neutral-600 text-white py-2 px-6 rounded-lg hover:bg-neutral-500 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Abbrechen</button>
+                    <button type="submit" id="bookingSubmit" class="bg-yellow-500 text-neutral-900 font-bold py-2 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Anfrage senden</button>
                 </div>
                 <div id="bookingMessage" class="mt-4 text-center" role="status"></div>
             </form>
@@ -151,7 +155,7 @@
 
     <!-- Chatbot Placeholder -->
     <div class="fixed bottom-6 right-6 z-30">
-        <button class="bg-yellow-500 text-gray-900 w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-400 transition duration-300 transform hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400" aria-label="Chatbot öffnen">
+        <button class="bg-yellow-500 text-neutral-900 w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-400 transition duration-300 transform hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400" aria-label="Chatbot öffnen">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2.046 17.65A.5.5 0 011.5 17.146l.654-2.88A7.95 7.95 0 012 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm4 0H9v2h2V9zm4 0h-2v2h2V9z" clip-rule="evenodd" />
             </svg>

@@ -8,7 +8,9 @@ const WEB_APP_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
    ========================================================================== */
 const state = {
     events: [],
+    specialDates: {},
     currentFilter: 'all',
+    currentSearch: '',
     lastFocusedElement: null,
 };
 
@@ -18,6 +20,7 @@ const state = {
 const loadingSpinner = document.getElementById('loadingSpinner');
 const eventsGrid = document.getElementById('events-grid');
 const filtersContainer = document.getElementById('filters');
+const searchInput = document.getElementById('searchBox');
 
 // Event modal elements
 const eventModal = document.getElementById('eventModal');
@@ -55,6 +58,25 @@ function initialiseApp() {
 
         attachEventListeners();
         fetchEvents();
+
+        // Hiding Navbar Logic
+        let lastScrollY = window.scrollY;
+        const header = document.querySelector('header');
+
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    if (lastScrollY < window.scrollY) {
+                        header.classList.add('-translate-y-full');
+                    } else {
+                        header.classList.remove('-translate-y-full');
+                    }
+                } else {
+                    header.classList.remove('-translate-y-full');
+                }
+                lastScrollY = window.scrollY;
+            });
+        }
     } catch (error) {
         console.error('Application failed to initialise:', error);
         setLoading(false);
@@ -76,6 +98,7 @@ async function fetchEvents() {
     if (WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
         console.warn('WEB_APP_URL is not configured. Loading demo data.');
         state.events = getDummyData();
+        state.specialDates = getDummySpecialDates();
         sortEvents();
         renderEvents();
         setLoading(false);
@@ -92,11 +115,13 @@ async function fetchEvents() {
 
         const data = await response.json();
         state.events = Array.isArray(data.events) ? data.events : [];
+        state.specialDates = data.specialDates || {};
         sortEvents();
         renderEvents();
     } catch (error) {
         console.error('Error fetching events:', error);
         state.events = getDummyData();
+        state.specialDates = getDummySpecialDates();
         sortEvents();
         renderEvents();
         const message = error.name === 'AbortError'
@@ -123,24 +148,34 @@ function renderEvents() {
     today.setHours(0, 0, 0, 0);
 
     const filterKey = normaliseCategory(state.currentFilter);
-    const filteredEvents = state.events.filter(event => state.currentFilter === 'all' || normaliseCategory(event.category) === filterKey);
+    const search = state.currentSearch;
+
+    const filteredEvents = state.events.filter(event => {
+        const matchesFilter = state.currentFilter === 'all' || normaliseCategory(event.category) === filterKey;
+        const matchesSearch = !search
+            || (event.title || '').toLowerCase().includes(search)
+            || (event.description || '').toLowerCase().includes(search)
+            || (event.tags || '').toLowerCase().includes(search);
+
+        return matchesFilter && matchesSearch;
+    });
 
     if (filteredEvents.length === 0) {
-        eventsGrid.innerHTML = '<p class="text-gray-400 text-center col-span-full">Keine Events für diesen Filter gefunden.</p>';
+        eventsGrid.innerHTML = '<p class="text-neutral-400 text-center col-span-full">Keine Events für diese Suche gefunden.</p>';
         return;
     }
 
     const fragment = document.createDocumentFragment();
 
     filteredEvents.forEach(event => {
-        const card = buildEventCard(event, today);
+        const card = buildEventCard(event, today, state.specialDates);
         fragment.appendChild(card);
     });
 
     eventsGrid.appendChild(fragment);
 }
 
-function buildEventCard(event, today) {
+function buildEventCard(event, today, specialDates) {
     const card = document.createElement('article');
     card.className = getCardClasses(event);
     card.dataset.id = event.id;
@@ -151,6 +186,12 @@ function buildEventCard(event, today) {
     const isPast = isPastEvent(event.date, today);
     const isToday = isTodayEvent(event.date, today);
 
+    const eventDateKey = extractISODate(event.date);
+    const specialDate = specialDates[eventDateKey];
+    if (specialDate && specialDate.type) {
+        card.dataset.specialDate = specialDate.type;
+    }
+
     if (isPast) {
         card.classList.add('opacity-60', 'grayscale', 'hover:opacity-80');
         card.classList.remove('hover:scale-105');
@@ -159,15 +200,23 @@ function buildEventCard(event, today) {
     }
 
     if (isToday) {
-        card.classList.add('ring-4', 'ring-yellow-400', 'ring-offset-2', 'ring-offset-gray-900');
+        card.classList.add('ring-4', 'ring-yellow-400', 'ring-offset-2', 'ring-offset-neutral-900');
     }
+
+    const tagsHtml = (event.tags || '')
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0)
+        .map(tag => `<span class="text-xs bg-neutral-600 text-neutral-200 px-2 py-0.5 rounded-full mr-1">${tag}</span>`)
+        .join('');
 
     card.innerHTML = `
         <img src="${event.image}" alt="${event.title}" loading="lazy" class="w-full h-32 object-cover ${event.size === 'large' ? 'sm:h-64' : 'sm:h-32'}">
         <div class="p-4">
             <span class="text-xs font-semibold text-yellow-400 uppercase">${event.category}</span>
             <h3 class="text-xl font-bold font-chalk truncate mt-1">${event.title}</h3>
-            <p class="text-sm text-gray-400">${formatEventDate(event.date)}</p>
+            <p class="text-sm text-neutral-400">${formatEventDate(event.date)}</p>
+            <div class="mt-2 flex flex-wrap gap-1">${tagsHtml}</div>
         </div>
         ${isToday ? '<span class="today-badge">HEUTE</span>' : ''}
         ${isPast ? '<span class="past-badge">VORBEI</span>' : ''}
@@ -183,7 +232,7 @@ function getCardClasses(event) {
     const classes = [
         'event-card',
         `event-card-${event.size}`,
-        'bg-gray-800',
+        'bg-neutral-800',
         'rounded-lg',
         'shadow-lg',
         'overflow-hidden',
@@ -399,6 +448,14 @@ function attachEventListeners() {
         console.warn('Filters container element not found.');
     }
 
+    if (searchInput) {
+        searchInput.addEventListener('input', event => {
+            const value = (event.target.value || '').toLowerCase();
+            state.currentSearch = value.trim();
+            renderEvents();
+        });
+    }
+
     if (modalCloseButton) {
         modalCloseButton.addEventListener('click', closeEventModal);
     } else {
@@ -566,6 +623,7 @@ function getDummyData() {
     const categories = ['Live Music', 'Quiz', 'Special', 'Club Night'];
     const sizes = ['small', 'medium', 'large'];
     const titles = ['Groove-Nacht', 'Trivia-Herausforderung', 'Burger-Börse', 'Hausparty', 'Akustik-Session', '80er-Rewind', 'Salsa-Nacht', 'Comedy Open Mic'];
+    const tagsPool = ['DJ Set', '90s', 'Pub Quiz', 'Karaoke', 'Seasonal', 'Cocktails', 'Live Band'];
 
     for (let i = 7; i > 0; i -= 1) {
         const date = new Date(today);
@@ -580,6 +638,7 @@ function getDummyData() {
             size: i % 3 === 0 ? 'medium' : 'small',
             image: `https://placehold.co/600x400/52525b/a1a1aa?text=${category.replace(' ', '+')}`,
             galleryLink: '#',
+            tags: `${tagsPool[i % tagsPool.length]}, Archiv`,
         });
     }
 
@@ -604,8 +663,17 @@ function getDummyData() {
             category,
             size,
             image: `https://placehold.co/600x400/334155/EAB308?text=${category.replace(' ', '+')}`,
+            tags: `${tagsPool[i % tagsPool.length]}, Highlights`,
         });
     }
 
     return events;
+}
+
+function getDummySpecialDates() {
+    return {
+        '2025-12-24': { type: 'holiday', label: 'Heiligabend' },
+        '2025-12-25': { type: 'holiday', label: 'Weihnachtstag' },
+        '2026-02-27': { type: 'fasnacht', label: 'Fasnacht' },
+    };
 }
