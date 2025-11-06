@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+  <rect width="200" height="80" rx="14" fill="#1f2933"/>
+  <path d="M24 56 L44 24 L64 56 Z" fill="#facc15"/>
+  <path d="M64 56 L84 34 L104 56 Z" fill="#facc15" opacity="0.85"/>
+  <text x="110" y="50" font-family="'Inter', sans-serif" font-size="22" fill="#f9fafb">Alpenbräu</text>
+</svg>

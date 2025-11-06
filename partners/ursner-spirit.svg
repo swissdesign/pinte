@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+  <rect width="200" height="80" rx="14" fill="#0f172a"/>
+  <path d="M36 54 C30 34, 70 34, 64 54" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+  <path d="M46 26 L60 18 L74 26 L70 40 L50 40 Z" fill="#facc15" opacity="0.8"/>
+  <text x="90" y="44" font-family="'Inter', sans-serif" font-size="24" fill="#f8fafc">Ursner</text>
+  <text x="90" y="60" font-family="'Inter', sans-serif" font-size="18" fill="#facc15">Spirit</text>
+</svg>

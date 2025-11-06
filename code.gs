@@ -23,7 +23,8 @@
 const SHEET_NAMES = {
   events: 'Events',
   reservations: 'Reservations',
-  contacts: 'Contacts'
+  contacts: 'Contacts',
+  specialDates: 'SpecialDates'
 };
 
 const ADMIN_EMAIL = 'your-email@gmail.com'; // Used for error notifications
@@ -35,12 +36,12 @@ function setup() {
   // Create Events sheet
   if (!ss.getSheetByName(SHEET_NAMES.events)) {
     const eventsSheet = ss.insertSheet(SHEET_NAMES.events);
-    eventsSheet.appendRow(['id', 'title', 'description', 'date', 'category', 'size', 'image', 'status']);
-    eventsSheet.getRange('A1:H1').setFontWeight('bold');
+    eventsSheet.appendRow(['id', 'title', 'description', 'date', 'category', 'size', 'image', 'status', 'tags']);
+    eventsSheet.getRange('A1:I1').setFontWeight('bold');
     // Add dummy data
-    eventsSheet.appendRow([1, 'Big Band Night', 'Live jazz and funk all night long.', '2025-11-10T20:00:00', 'Live Music', 'large', 'https://placehold.co/800x600/334155/EAB308?text=Big+Band', 'active']);
-    eventsSheet.appendRow([2, 'Weekly Pub Quiz', 'Test your knowledge. £50 bar tab.', '2025-11-11T19:30:00', 'Quiz', 'medium', 'https://placehold.co/600x400/334155/EAB308?text=Quiz', 'active']);
-    eventsSheet.appendRow([3, '2-for-1 Burgers', 'All gourmet burgers are 2-for-1.', '2025-11-12T12:00:00', 'Special', 'medium', 'https://placehold.co/600x400/334155/EAB308?text=Burgers', 'active']);
+    eventsSheet.appendRow([1, 'Big Band Night', 'Live jazz and funk all night long.', '2025-11-10T20:00:00', 'Live Music', 'large', 'https://placehold.co/800x600/334155/EAB308?text=Big+Band', 'active', 'Live Music, Jazz']);
+    eventsSheet.appendRow([2, 'Weekly Pub Quiz', 'Test your knowledge. £50 bar tab.', '2025-11-11T19:30:00', 'Quiz', 'medium', 'https://placehold.co/600x400/334155/EAB308?text=Quiz', 'active', 'Trivia']);
+    eventsSheet.appendRow([3, '2-for-1 Burgers', 'All gourmet burgers are 2-for-1.', '2025-11-12T12:00:00', 'Special', 'medium', 'https://placehold.co/600x400/334155/EAB308?text=Burgers', 'active', 'Food']);
   }
   
   // Create Reservations sheet
@@ -56,6 +57,13 @@ function setup() {
     contactsSheet.appendRow(['timestamp', 'email', 'name', 'consent_given']);
     contactsSheet.getRange('A1:D1').setFontWeight('bold');
   }
+
+  // Create Special Dates sheet
+  if (!ss.getSheetByName(SHEET_NAMES.specialDates)) {
+    const specialDatesSheet = ss.insertSheet(SHEET_NAMES.specialDates);
+    specialDatesSheet.appendRow(['date', 'type', 'label']);
+    specialDatesSheet.getRange('A1:C1').setFontWeight('bold');
+  }
   
   Logger.log('Setup complete. Sheets are ready.');
 }
@@ -70,7 +78,8 @@ function setup() {
 function doGet(e) {
   try {
     const events = getEvents();
-    const output = JSON.stringify({ status: 'success', events: events });
+    const specialDates = getSpecialDates();
+    const output = JSON.stringify({ status: 'success', events: events, specialDates: specialDates });
     return ContentService.createTextOutput(output).setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
     Logger.log('doGet Error: ' + error);
@@ -133,12 +142,34 @@ function getEvents() {
         date: new Date(row[col.date]).toISOString(), // Standardize date format
         category: row[col.category],
         size: row[col.size],
-        image: row[col.image]
+        image: row[col.image],
+        tags: col.tags !== undefined ? (row[col.tags] || '') : ''
       });
     }
   });
-  
+
   return events;
+}
+
+function getSpecialDates() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAMES.specialDates);
+  if (!sheet) {
+    return {};
+  }
+  const data = sheet.getDataRange().getValues();
+  data.shift(); // Remove header
+  const dates = {};
+  data.forEach(row => {
+    if (!row[0]) {
+      return;
+    }
+    const dateKey = new Date(row[0]).toISOString().split('T')[0];
+    dates[dateKey] = {
+      type: row[1],
+      label: row[2]
+    };
+  });
+  return dates;
 }
 
 /**
