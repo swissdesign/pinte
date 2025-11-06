@@ -162,6 +162,68 @@
         </button>
     </div>
 
+    <!-- Footer -->
+    <footer class="bg-neutral-950 border-t border-neutral-800 mt-16">
+        <div class="container mx-auto px-4 py-12 text-center">
+            <div class="flex justify-center">
+                <img src="logo.svg" alt="Pinte Logo" class="h-16 w-auto">
+            </div>
+
+            <div class="partner-slider mt-8" aria-label="Partner und Unterstützer">
+                <div class="partner-track">
+                    <a href="https://alpenbrau.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
+                        <img src="partners/alpenbrau.svg" alt="Alpenbräu" class="partner-logo">
+                    </a>
+                    <a href="https://andermattroasters.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
+                        <img src="partners/andermatt-roasters.svg" alt="Andermatt Roasters" class="partner-logo">
+                    </a>
+                    <a href="https://ursnerspirit.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
+                        <img src="partners/ursner-spirit.svg" alt="Ursner Spirit" class="partner-logo">
+                    </a>
+                    <a href="https://gotthardadventures.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
+                        <img src="partners/gotthard-adventures.svg" alt="Gotthard Adventures" class="partner-logo">
+                    </a>
+                    <!-- Duplicate logos for seamless auto-scroll -->
+                    <a href="https://alpenbrau.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
+                        <img src="partners/alpenbrau.svg" alt="Alpenbräu" class="partner-logo">
+                    </a>
+                    <a href="https://andermattroasters.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
+                        <img src="partners/andermatt-roasters.svg" alt="Andermatt Roasters" class="partner-logo">
+                    </a>
+                    <a href="https://ursnerspirit.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
+                        <img src="partners/ursner-spirit.svg" alt="Ursner Spirit" class="partner-logo">
+                    </a>
+                    <a href="https://gotthardadventures.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
+                        <img src="partners/gotthard-adventures.svg" alt="Gotthard Adventures" class="partner-logo">
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-10 text-sm text-neutral-400 space-y-2">
+                <p>&copy; <span id="currentYear"></span> Pinte Pub & Club. Alle Rechte vorbehalten.</p>
+                <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 justify-center">
+                    <a href="impressum.html" class="footer-link">Impressum</a>
+                    <a href="datenschutz.html" class="footer-link">Datenschutzerklärung</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie Hinweis" aria-hidden="false">
+        <div class="cookie-banner__content">
+            <p class="cookie-banner__text">
+                Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und Pflichtfunktionen zu ermöglichen.
+                <a href="datenschutz.html" class="footer-link underline">Mehr erfahren</a> ·
+                <a href="impressum.html" class="footer-link underline">Impressum</a>
+            </p>
+            <div class="cookie-banner__actions">
+                <button type="button" class="cookie-btn cookie-btn--secondary" data-action="essential">Nur notwendige</button>
+                <button type="button" class="cookie-btn cookie-btn--primary" data-action="accept">Alle akzeptieren</button>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script src="script.js" defer></script>
 </body>

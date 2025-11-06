@@ -50,10 +50,16 @@ document.addEventListener('DOMContentLoaded', initialiseApp);
 
 function initialiseApp() {
     try {
-        if (!eventsGrid) {
-            console.error('Events grid element not found.');
+        updateFooterYear();
+        setupCookieBanner();
+        setupHeaderHide();
+
+        if (eventsGrid) {
+            attachEventListeners();
+            fetchEvents();
+        } else {
+            console.warn('Events grid element not found. Skipping event initialisation.');
             setLoading(false);
-            return;
         }
 
         attachEventListeners();
@@ -552,6 +558,82 @@ function handleEscapeKey(event) {
 /* ==========================================================================
    Utility Helpers
    ========================================================================== */
+function setupHeaderHide() {
+    const header = document.querySelector('header');
+    if (!header) {
+        return;
+    }
+
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            if (lastScrollY < window.scrollY) {
+                header.classList.add('-translate-y-full');
+            } else {
+                header.classList.remove('-translate-y-full');
+            }
+        } else {
+            header.classList.remove('-translate-y-full');
+        }
+
+        lastScrollY = window.scrollY;
+    }, { passive: true });
+}
+
+function updateFooterYear() {
+    const yearElement = document.getElementById('currentYear');
+    if (!yearElement) {
+        return;
+    }
+
+    yearElement.textContent = new Date().getFullYear();
+}
+
+function setupCookieBanner() {
+    const banner = document.getElementById('cookieBanner');
+    if (!banner) {
+        return;
+    }
+
+    const hideBanner = () => {
+        banner.classList.add('hidden');
+        banner.setAttribute('aria-hidden', 'true');
+    };
+
+    try {
+        const storedChoice = localStorage.getItem('cookieConsent');
+        if (storedChoice) {
+            hideBanner();
+            return;
+        }
+    } catch (storageError) {
+        console.warn('Cookie consent storage unavailable:', storageError);
+    }
+
+    banner.setAttribute('aria-hidden', 'false');
+
+    const handleChoice = choice => {
+        try {
+            localStorage.setItem('cookieConsent', choice);
+        } catch (storageError) {
+            console.warn('Unable to persist cookie consent choice:', storageError);
+        }
+        hideBanner();
+    };
+
+    const acceptButton = banner.querySelector('[data-action="accept"]');
+    const essentialButton = banner.querySelector('[data-action="essential"]');
+
+    if (acceptButton) {
+        acceptButton.addEventListener('click', () => handleChoice('accepted'));
+    }
+
+    if (essentialButton) {
+        essentialButton.addEventListener('click', () => handleChoice('essential'));
+    }
+}
+
 function setLoading(isLoading) {
     if (!loadingSpinner) {
         return;
