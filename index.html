@@ -1,79 +1,597 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinte Pub & Club – Events</title>
-    <!-- Google Fonts: chalk-like title font and clean body font -->
-    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>The Chalkboard - Events & Reservierungen</title>
+    
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Google Fonts: Chalk-style and a clean sans-serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 3. Custom Styling & Font Configuration -->
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark background */
+            color: #E5E7EB; /* Off-white text */
+        }
+        
+        /* Chalk-style font for headings */
+        .font-chalk {
+            font-family: 'Gloria Hallelujah', cursive;
+        }
+
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; /* gray-800 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563; /* gray-600 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* gray-500 */
+        }
+
+        /* Ensure modal is on top */
+        #eventModal, #bookingModal {
+            z-index: 50;
+        }
+
+        /* Hide-Scrollbar utility */
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        /* Card sizing classes */
+        .event-card-small {
+            /* aspect-ratio: 1 / 1; */
+        }
+        .event-card-medium {
+            /* aspect-ratio: 4 / 3; */
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+        .event-card-large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        /* Responsive grid adjustments */
+        @media (min-width: 640px) { /* sm */
+            .event-card-large {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+        }
+        @media (min-width: 1024px) { /* lg */
+            .event-card-medium {
+                /* Larger screens can show more */
+            }
+            .event-card-large {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <div class="logo">Pinte Pub & Club</div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#" class="active">Events</a></li>
-                <li><a href="#">Menu</a></li>
-                <li><a href="#">Gallery</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+<body class="bg-gray-900 text-gray-200 min-h-screen">
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-gray-900 bg-opacity-80 flex items-center justify-center z-[100]">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-yellow-500"></div>
+        <span class="absolute text-xl font-chalk">Lade Events...</span>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-gray-900 bg-opacity-80 backdrop-blur-md border-b border-gray-700">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <!-- Logo Placeholder -->
+            <div class="w-14 h-14 bg-gray-700 text-gray-400 text-xs flex items-center justify-center text-center p-1 rounded-lg font-semibold">PINTE LOGO</div>
+            
+            <div class="hidden md:flex space-x-6">
+                <a href="#events" class="text-gray-300 hover:text-yellow-400">Events</a>
+                <a href="#" class="text-gray-300 hover:text-yellow-400">Menü</a>
+                <a href="#" class="text-gray-300 hover:text-yellow-400">Galerie</a>
+                <a href="#" class="text-gray-300 hover:text-yellow-400">Kontakt</a>
+            </div>
+            <button id="openBookingModal" class="bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300">Platz sichern</button>
+            <!-- Mobile Menu Button (placeholder) -->
+            <button class="md:hidden bg-gray-800 p-2 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
         </nav>
     </header>
 
-    <main>
-        <!-- Event filter section -->
-        <section class="filters">
-            <button data-filter="all" class="filter-btn active">All</button>
-            <button data-filter="live" class="filter-btn">Live Music</button>
-            <button data-filter="quiz" class="filter-btn">Quiz</button>
-            <button data-filter="club" class="filter-btn">Club Night</button>
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <!-- Filters -->
+        <div id="filters" class="mb-6 flex flex-wrap gap-2 md:gap-4 justify-center">
+            <button class="filter-btn bg-gray-700 data-[active='true']:bg-yellow-500 data-[active='true']:text-gray-900 text-white font-semibold py-2 px-5 rounded-full transition duration-300" data-filter="all" data-active="true">Alle Events</button>
+            <button class="filter-btn bg-gray-700 data-[active='true']:bg-yellow-500 data-[active='true']:text-gray-900 text-white font-semibold py-2 px-5 rounded-full transition duration-300" data-filter="Live Music" data-active="false">Live-Musik</button>
+            <button class="filter-btn bg-gray-700 data-[active='true']:bg-yellow-500 data-[active='true']:text-gray-900 text-white font-semibold py-2 px-5 rounded-full transition duration-300" data-filter="Quiz" data-active="false">Quiz</button>
+            <button class="filter-btn bg-gray-700 data-[active='true']:bg-yellow-500 data-[active='true']:text-gray-900 text-white font-semibold py-2 px-5 rounded-full transition duration-300" data-filter="Special" data-active="false">Specials</button>
+            <button class="filter-btn bg-gray-700 data-[active='true']:bg-yellow-500 data-[active='true']:text-gray-900 text-white font-semibold py-2 px-5 rounded-full transition duration-300" data-filter="Club Night" data-active="false">Club-Nacht</button>
+        </div>
+
+        <!-- Event Calendar Grid -->
+        <section id="events-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 auto-rows-[minmax(150px,auto)]">
+            <!-- Event cards will be dynamically inserted here by JavaScript -->
         </section>
 
-        <!-- Event grid container -->
-        <section id="event-grid" class="event-grid">
-            <!-- Cards will be injected here via JavaScript -->
-        </section>
     </main>
 
-    <!-- Modal for event details and reservation form -->
-    <div id="event-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <div class="modal-header">
-                <h2 id="modal-title"></h2>
-                <p id="modal-date"></p>
-            </div>
-            <div class="modal-body">
-                <p id="modal-description"></p>
-            </div>
-            <div class="modal-form">
-                <h3>Reserve your table</h3>
-                <form id="reservation-form">
-                    <input type="hidden" id="event-id" name="event-id">
-                    <div class="form-field">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
+    <!-- Event Detail Modal -->
+    <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div id="eventModalContent" class="bg-gray-800 rounded-lg shadow-2xl w-full max-w-2xl transform scale-95 transition-transform duration-300 overflow-hidden">
+            <!-- Content injected by JS -->
+            <img id="modalImage" src="" alt="Event Image" class="w-full h-64 object-cover">
+            <div class="p-6">
+                <h2 id="modalTitle" class="text-4xl font-chalk text-yellow-400 mb-2"></h2>
+                <span id="modalDate" class="block text-lg text-gray-300 mb-4"></span>
+                <p id="modalDescription" class="text-gray-300 mb-6"></p>
+                <div class="flex justify-between items-center">
+                    <button id="modalClose" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-500 transition duration-300">Schließen</button>
+                    <!-- Button container: Only one of the next two will be shown -->
+                    <div>
+                        <button id="modalBook" class="bg-yellow-500 text-gray-900 font-bold py-2 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300">Platz reservieren</button>
+                        <a id="modalPhotos" href="#" target="_blank" class="hidden bg-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-blue-400 transition duration-300">Fotos ansehen</a>
                     </div>
-                    <div class="form-field">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="party">Party Size</label>
-                        <input type="number" id="party" name="party" min="1" max="20" value="2" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="comments">Comments</label>
-                        <textarea id="comments" name="comments" rows="2"></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Submit Reservation</button>
-                </form>
-                <div id="confirmation-message" class="confirmation-message"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div class="bg-gray-800 rounded-lg shadow-2xl w-full max-w-lg p-6 transform scale-95 transition-transform duration-300">
+            <h2 class="text-3xl font-chalk text-yellow-400 mb-6">Tisch reservieren</h2>
+            <form id="bookingForm">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Vollständiger Name</label>
+                    <input type="text" id="name" name="name" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">E-Mail</label>
+                    <input type="email" id="email" name="email" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-gray-300 mb-1">Datum</label>
+                        <input type="date" id="date" name="date" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" style="color-scheme: dark;">
+                    </div>
+                    <div>
+                        <label for="time" class="block text-sm font-medium text-gray-300 mb-1">Uhrzeit</label>
+                        <input type="time" id="time" name="time" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" style="color-scheme: dark;">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="guests" class="block text-sm font-medium text-gray-300 mb-1">Anzahl der Gäste</label>
+                    <input type="number" id="guests" name="guests" min="1" max="20" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div class="mb-4">
+                    <label for="comments" class="block text-sm font-medium text-gray-300 mb-1">Anmerkungen (z.B. bestimmtes Event)</label>
+                    <textarea id="comments" name="comments" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="consent" name="consent" class="h-4 w-4 bg-gray-700 border-gray-600 rounded text-yellow-500 focus:ring-yellow-500">
+                        <span class="ml-2 text-sm text-gray-400">Melde mich für den wöchentlichen "Was ist los"-Newsletter an.</span>
+                    </label>
+                </div>
+                <div class="flex justify-between items-center">
+                    <button type="button" id="bookingClose" class="bg-gray-600 text-white py-2 px-6 rounded-lg hover:bg-gray-500 transition duration-300">Abbrechen</button>
+                    <button type="submit" id="bookingSubmit" class="bg-yellow-500 text-gray-900 font-bold py-2 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300">Anfrage senden</button>
+                </div>
+                <div id="bookingMessage" class="mt-4 text-center"></div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Chatbot Placeholder -->
+    <div class="fixed bottom-6 right-6 z-30">
+        <button class="bg-yellow-500 text-gray-900 w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-400 transition duration-300 transform hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2.046 17.65A.5.5 0 011.5 17.146l.654-2.88A7.95 7.95 0 012 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm4 0H9v2h2V9zm4 0h-2v2h2V9z" clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // ##################################################################
+        // CONFIGURATION
+        // ##################################################################
+        
+        // IMPORTANT: Replace this URL with your deployed Google Apps Script Web App URL
+        const WEB_APP_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+        
+        // ##################################################################
+        
+        // Global state
+        let allEvents = [];
+        let currentFilter = 'all';
+
+        // DOM Elements
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const eventsGrid = document.getElementById('events-grid');
+        const filtersContainer = document.getElementById('filters');
+        
+        // Event Modal Elements
+        const eventModal = document.getElementById('eventModal');
+        const eventModalContent = document.getElementById('eventModalContent');
+        const modalClose = document.getElementById('modalClose');
+        const modalBook = document.getElementById('modalBook');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDate = document.getElementById('modalDate');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalPhotos = document.getElementById('modalPhotos');
+
+        // Booking Modal Elements
+        const bookingModal = document.getElementById('bookingModal');
+        const openBookingModalBtn = document.getElementById('openBookingModal');
+        const bookingClose = document.getElementById('bookingClose');
+        const bookingForm = document.getElementById('bookingForm');
+        const bookingSubmitBtn = document.getElementById('bookingSubmit');
+        const bookingMessage = document.getElementById('bookingMessage');
+        const commentsField = document.getElementById('comments');
+
+        // --- Data Fetching ---
+
+        async function fetchEvents() {
+            if (WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                console.error('ERROR: Please set the WEB_APP_URL variable in the script.');
+                loadingSpinner.style.display = 'none';
+                eventsGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">Failed to load events. Web App URL is not configured.</p>`;
+                // Load dummy data for demo purposes
+                console.warn('Loading dummy data for demo.');
+                allEvents = getDummyData();
+                // Sort events by date (past to future)
+                allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+                renderEvents();
+                return;
+            }
+            
+            try {
+                const response = await fetch(WEB_APP_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                allEvents = data.events;
+                // Sort events by date (past to future)
+                allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+                renderEvents();
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                eventsGrid.innerHTML = `<p class="text-red-400 text-center col-span-full">Error loading events. Please try again later.</p>`;
+                // Load dummy data on failure
+                allEvents = getDummyData();
+                // Sort events by date (past to future)
+                allEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+                renderEvents();
+            } finally {
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        // --- Event Rendering ---
+
+        function renderEvents() {
+            eventsGrid.innerHTML = '';
+            
+            // Define 'today' for comparison. Clear time to compare dates only.
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const filteredEvents = allEvents.filter(event => 
+                currentFilter === 'all' || event.category === currentFilter
+            );
+
+            if (filteredEvents.length === 0) {
+                eventsGrid.innerHTML = `<p class="text-gray-400 text-center col-span-full">Keine Events für diesen Filter gefunden.</p>`;
+                return;
+            }
+
+            filteredEvents.forEach(event => {
+                const card = document.createElement('div');
+                const eventDate = new Date(event.date);
+                eventDate.setHours(0, 0, 0, 0); // Clear time for date comparison
+
+                const isPast = eventDate < today;
+                const isToday = eventDate.getTime() === today.getTime();
+
+                let cardClasses = `event-card event-card-${event.size} bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform duration-300 transform relative`;
+                
+                if (isPast) {
+                    cardClasses += ' opacity-60 grayscale hover:opacity-80'; // Greyed out
+                } else {
+                    cardClasses += ' cursor-pointer hover:scale-105'; // Normal
+                }
+                
+                if (isToday) {
+                    cardClasses += ' ring-4 ring-yellow-400 ring-offset-2 ring-offset-gray-900'; // Highlight today
+                }
+                
+                card.className = cardClasses;
+                card.dataset.id = event.id;
+                
+                // Add size classes
+                if (event.size === 'large') {
+                    card.classList.add('lg:col-span-2', 'lg:row-span-2', 'sm:col-span-2', 'sm:row-span-2', 'col-span-2', 'row-span-2');
+                } else if (event.size === 'medium') {
+                    card.classList.add('lg:col-span-1', 'lg:row-span-1', 'sm:col-span-1', 'sm:row-span-1', 'col-span-1', 'row-span-1');
+                } else {
+                     card.classList.add('lg:col-span-1', 'lg:row-span-1', 'sm:col-span-1', 'sm:row-span-1', 'col-span-1', 'row-span-1');
+                }
+
+                card.innerHTML = `
+                    <img src="${event.image}" alt="${event.title}" class="w-full h-32 object-cover ${event.size === 'large' ? 'sm:h-64' : 'sm:h-32'}">
+                    <div class="p-4">
+                        <span class="text-xs font-semibold text-yellow-400 uppercase">${event.category}</span>
+                        <h3 class="text-xl font-bold font-chalk truncate mt-1">${event.title}</h3>
+                        <p class="text-sm text-gray-400">${formatEventDate(event.date)}</p>
+                    </div>
+                    ${isToday ? `<div class="absolute top-2 right-2 bg-yellow-500 text-gray-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg">HEUTE</div>` : ''}
+                    ${isPast ? `<div class="absolute top-2 left-2 bg-gray-900 bg-opacity-70 text-white text-xs font-bold px-3 py-1 rounded-full">VORBEI</div>` : ''}
+                `;
+                card.addEventListener('click', () => openEventModal(event.id));
+                eventsGrid.appendChild(card);
+            });
+        }
+
+        function formatEventDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('de-DE', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+            });
+        }
+
+        // --- Event Modal Logic ---
+
+        function openEventModal(eventId) {
+            const event = allEvents.find(e => e.id === eventId);
+            if (!event) return;
+
+            modalImage.src = event.image;
+            modalImage.alt = event.title;
+            modalTitle.textContent = event.title;
+            modalDate.textContent = new Date(event.date).toLocaleString('de-DE', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            modalDescription.textContent = event.description;
+
+            // Check if event is in the past
+            const eventDate = new Date(event.date);
+            const today = new Date();
+            
+            if (eventDate < today) {
+                // Event is in the past
+                modalBook.classList.add('hidden');
+                modalPhotos.classList.remove('hidden');
+                // You can set a real gallery link here if it's in your sheet
+                modalPhotos.href = event.galleryLink || '#'; // Assuming you add a 'galleryLink' column
+            } else {
+                // Event is in the future
+                modalBook.classList.remove('hidden');
+                modalPhotos.classList.add('hidden');
+            }
+            
+            // Pass event info to booking button
+            modalBook.onclick = () => {
+                closeEventModal();
+                openBookingModal(`Reservierung für: ${event.title} am ${formatEventDate(event.date)}`);
+                // Pre-fill date
+                document.getElementById('date').value = event.date.split('T')[0];
+            };
+
+            eventModal.classList.remove('opacity-0', 'pointer-events-none');
+            eventModalContent.classList.remove('scale-95');
+        }
+
+        function closeEventModal() {
+            eventModal.classList.add('opacity-0', 'pointer-events-none');
+            eventModalContent.classList.add('scale-95');
+        }
+
+        // --- Booking Modal Logic ---
+
+        function openBookingModal(commentText = '') {
+            bookingMessage.textContent = '';
+            bookingMessage.className = 'mt-4 text-center';
+            bookingForm.reset();
+            commentsField.value = commentText;
+            bookingModal.classList.remove('opacity-0', 'pointer-events-none');
+            bookingModal.querySelector('.scale-95').classList.remove('scale-95');
+        }
+
+        function closeBookingModal() {
+            bookingModal.classList.add('opacity-0', 'pointer-events-none');
+            bookingModal.querySelector('div.bg-gray-800').classList.add('scale-95');
+        }
+
+        async function handleBookingSubmit(e) {
+            e.preventDefault();
+            bookingSubmitBtn.disabled = true;
+            bookingSubmitBtn.textContent = 'Sende...';
+            bookingMessage.textContent = '';
+
+            const formData = new FormData(bookingForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                date: formData.get('date'),
+                time: formData.get('time'),
+                guests: formData.get('guests'),
+                comments: formData.get('comments'),
+                consent: formData.get('consent') === 'on'
+            };
+
+            if (WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                console.error('ERROR: Cannot submit form. WEB_APP_URL is not set.');
+                bookingMessage.textContent = 'Buchung fehlgeschlagen: Konfigurationsfehler.';
+                bookingMessage.classList.add('text-red-400');
+                bookingSubmitBtn.disabled = false;
+                bookingSubmitBtn.textContent = 'Anfrage senden';
+                // Simulate success for demo
+                setTimeout(() => {
+                    bookingMessage.textContent = 'Buchung erfolgreich! (Demo)';
+                    bookingMessage.classList.remove('text-red-400');
+                    bookingMessage.classList.add('text-green-400');
+                    setTimeout(closeBookingModal, 2000);
+                }, 1000);
+                return;
+            }
+
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    bookingMessage.textContent = 'Buchung erfolgreich! Prüfe deine E-Mails für die Bestätigung.';
+                    bookingMessage.classList.add('text-green-400');
+                    bookingForm.reset();
+                    setTimeout(closeBookingModal, 3000);
+                } else {
+                    throw new Error(result.message || 'Unknown error');
+                }
+            } catch (error) {
+                console.error('Error submitting booking:', error);
+                bookingMessage.textContent = `Buchung fehlgeschlagen: ${error.message}. Bitte erneut versuchen.`;
+                bookingMessage.classList.add('text-red-400');
+            } finally {
+                bookingSubmitBtn.disabled = false;
+                bookingSubmitBtn.textContent = 'Anfrage senden';
+            }
+        }
+
+        // --- Filters Logic ---
+
+        function handleFilterClick(e) {
+            const clickedButton = e.target.closest('button.filter-btn');
+            if (!clickedButton) return;
+
+            currentFilter = clickedButton.dataset.filter;
+
+            // Update button active states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.dataset.active = (btn.dataset.filter === currentFilter).toString();
+            });
+
+            renderEvents();
+        }
+
+        // --- Event Listeners ---
+
+        document.addEventListener('DOMContentLoaded', fetchEvents);
+        
+        // Modals
+        modalClose.addEventListener('click', closeEventModal);
+        eventModal.addEventListener('click', (e) => {
+            if (e.target === eventModal) closeEventModal();
+        });
+        
+        openBookingModalBtn.addEventListener('click', () => openBookingModal());
+        bookingClose.addEventListener('click', closeBookingModal);
+        bookingModal.addEventListener('click', (e) => {
+            if (e.target === bookingModal) closeBookingModal();
+        });
+        
+        // Forms
+        bookingForm.addEventListener('submit', handleBookingSubmit);
+        
+        // Filters
+        filtersContainer.addEventListener('click', handleFilterClick);
+
+
+        // --- Dummy Data ---
+        function getDummyData() {
+            // Set a fixed "today" for consistent demo data
+            const today = new Date('2025-11-10T09:00:00');
+            const events = [];
+            const categories = ['Live-Musik', 'Quiz', 'Special', 'Club-Nacht'];
+            const sizes = ['small', 'medium', 'large'];
+            const titles = ['Groove-Nacht', 'Trivia-Herausforderung', 'Burger-Börse', 'Hausparty', 'Akustik-Session', '80er-Rewind', 'Salsa-Nacht', 'Comedy Open Mic'];
+
+            // Generate 7 past events
+            for (let i = 7; i > 0; i--) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i * 3); // Events every 3 days in the past
+                const category = categories[i % categories.length];
+                events.push({
+                    id: 8 - i,
+                    title: `VORBEI: ${titles[i % titles.length]}`,
+                    description: `Dieses Event hat bereits stattgefunden. Schau dir die Fotos an!`,
+                    date: date.toISOString(),
+                    category: category,
+                    size: i % 3 === 0 ? 'medium' : 'small',
+                    image: `https://placehold.co/600x400/52525b/a1a1aa?text=${category.replace(' ', '+')}`,
+                    galleryLink: '#' // Placeholder link
+                });
+            }
+
+            // Generate 30 future events
+            for (let i = 0; i < 30; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i); // Events for the next 30 days
+                date.setHours(19 + (i % 5), (i % 2) * 30, 0); // Vary times
+                
+                const category = categories[i % categories.length];
+                let size = sizes[i % sizes.length];
+                // Make "today's" event large
+                if (i === 0) {
+                    size = 'large';
+                    category = 'Live-Musik';
+                }
+
+                events.push({
+                    id: i + 8,
+                    title: titles[i % titles.length],
+                    description: 'Mach dich bereit für eine tolle Zeit. Alle Infos: [Details hier]. Sichere dir jetzt deinen Platz!',
+                    date: date.toISOString(),
+                    category: category,
+                    size: size,
+                    image: `https://placehold.co/600x400/334155/EAB308?text=${category.replace(' ', '+')}`
+                });
+            }
+            
+            return events;
+        }
+
+    </script>
+
 </body>
 </html>
