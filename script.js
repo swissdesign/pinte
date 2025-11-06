@@ -46,13 +46,31 @@ const commentsField = document.getElementById('comments');
 document.addEventListener('DOMContentLoaded', initialiseApp);
 
 function initialiseApp() {
+
+  codex/refactor-html,-css,-and-js-files-mefy1d
+    try {
+        if (!eventsGrid) {
+            console.error('Events grid element not found.');
+            setLoading(false);
+            return;
+        }
+
+        attachEventListeners();
+        fetchEvents();
+    } catch (error) {
+        console.error('Application failed to initialise:', error);
+        setLoading(false);
+        prependBanner('Die Seite konnte nicht vollständig geladen werden. Bitte lade sie erneut.', 'text-red-300 text-center col-span-full', 'initialise-error');
+    }
+=======
     if (!eventsGrid) {
         console.error('Events grid element not found.');
         return;
     }
 
     attachEventListeners();
-    fetchEvents();
+    fetchEvents()
+  main
 }
 
 /* ==========================================================================
@@ -378,6 +396,71 @@ function attachEventListeners() {
     if (filtersContainer) {
         filtersContainer.addEventListener('click', handleFilterClick);
         filtersContainer.addEventListener('keydown', filterKeydownHandler);
+
+      codex/refactor-html,-css,-and-js-files-mefy1d
+    } else {
+        console.warn('Filters container element not found.');
+    }
+
+    if (modalCloseButton) {
+        modalCloseButton.addEventListener('click', closeEventModal);
+    } else {
+        console.warn('Modal close button not found.');
+    }
+
+    if (eventModal) {
+        eventModal.addEventListener('click', event => {
+            if (event.target === eventModal) {
+                closeEventModal();
+            }
+        });
+    } else {
+        console.warn('Event modal container not found.');
+    }
+
+    if (openBookingModalButton) {
+        openBookingModalButton.addEventListener('click', () => openBookingModal());
+    } else {
+        console.warn('Booking trigger button not found.');
+    }
+
+    if (bookingCloseButton) {
+        bookingCloseButton.addEventListener('click', closeBookingModal);
+    } else {
+        console.warn('Booking modal close button not found.');
+    }
+
+    if (bookingModal) {
+        bookingModal.addEventListener('click', event => {
+            if (event.target === bookingModal) {
+                closeBookingModal();
+            }
+        });
+    } else {
+        console.warn('Booking modal container not found.');
+    }
+
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', handleBookingSubmit);
+    } else {
+        console.warn('Booking form element not found.');
+    }
+}
+
+function handleFilterClick(event) {
+    const targetButton = event.target.closest('button.filter-btn');
+    if (!targetButton) {
+        return;
+    }
+
+    state.currentFilter = targetButton.dataset.filter;
+
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        const isActive = normaliseCategory(button.dataset.filter) === normaliseCategory(state.currentFilter);
+        button.dataset.active = isActive.toString();
+    });
+
+=======
     }
 
     modalCloseButton.addEventListener('click', closeEventModal);
@@ -411,6 +494,7 @@ function handleFilterClick(event) {
         button.dataset.active = isActive.toString();
     });
 
+main
     renderEvents();
 }
 
@@ -450,10 +534,25 @@ function handleEscapeKey(event) {
    Utility Helpers
    ========================================================================== */
 function setLoading(isLoading) {
+codex/refactor-html,-css,-and-js-files-mefy1d
+    if (!loadingSpinner) {
+        return;
+    }
+
+    if (isLoading) {
+        loadingSpinner.removeAttribute('hidden');
+        loadingSpinner.style.removeProperty('display');
+        loadingSpinner.setAttribute('aria-hidden', 'false');
+    } else {
+        loadingSpinner.setAttribute('hidden', '');
+        loadingSpinner.style.display = 'none';
+        loadingSpinner.setAttribute('aria-hidden', 'true');
+=======
     if (isLoading) {
         loadingSpinner.removeAttribute('hidden');
     } else {
         loadingSpinner.setAttribute('hidden', '');
+main
     }
 }
 
