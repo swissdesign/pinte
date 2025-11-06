@@ -68,27 +68,10 @@ function initialiseApp() {
 async function fetchEvents() {
     setLoading(true);
 
-    const abortSupported = typeof AbortController === 'function';
-    let controller;
-    let timeoutId;
-    let timedOut = false;
-
-    if (abortSupported) {
-        controller = new AbortController();
-        timeoutId = window.setTimeout(() => {
-            controller.abort();
-        }, 10000);
-    } else {
-        timeoutId = window.setTimeout(() => {
-            timedOut = true;
-            console.warn('AbortController wird nicht unterstützt. Verwende Fallback-Daten nach Timeout.');
-            state.events = getDummyData();
-            sortEvents();
-            renderEvents();
-            prependBanner('Zeitüberschreitung beim Laden der Events. Es werden Demo-Daten angezeigt.', 'text-red-300 text-center col-span-full', 'error-banner');
-            setLoading(false);
-        }, 10000);
-    }
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => {
+        controller.abort();
+    }, 10000);
 
     if (WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
         console.warn('WEB_APP_URL is not configured. Loading demo data.');
@@ -102,24 +85,16 @@ async function fetchEvents() {
     }
 
     try {
-        const fetchOptions = abortSupported && controller ? { signal: controller.signal } : {};
-        const response = await fetch(WEB_APP_URL, fetchOptions);
+        const response = await fetch(WEB_APP_URL, { signal: controller.signal });
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-        if (timedOut) {
-            return;
-        }
         state.events = Array.isArray(data.events) ? data.events : [];
         sortEvents();
         renderEvents();
     } catch (error) {
-        if (timedOut) {
-            console.warn('Fetch-Antwort nach Timeout eingetroffen und wird ignoriert.');
-            return;
-        }
         console.error('Error fetching events:', error);
         state.events = getDummyData();
         sortEvents();
@@ -130,9 +105,7 @@ async function fetchEvents() {
         prependBanner(message, 'text-red-300 text-center col-span-full', 'error-banner');
     } finally {
         window.clearTimeout(timeoutId);
-        if (!timedOut) {
-            setLoading(false);
-        }
+        setLoading(false);
     }
 }
 
@@ -334,6 +307,23 @@ async function handleBookingSubmit(event) {
     bookingMessage.textContent = '';
     bookingMessage.classList.remove('success', 'error');
 
+
+    setModalVisibility(bookingModal, bookingModalContent, true);
+}
+
+function closeBookingModal() {
+    setModalVisibility(bookingModal, bookingModalContent, false);
+    restoreFocus();
+}
+
+async function handleBookingSubmit(event) {
+    event.preventDefault();
+
+    bookingSubmitButton.disabled = true;
+    bookingSubmitButton.textContent = 'Sende...';
+    bookingMessage.textContent = '';
+    bookingMessage.classList.remove('success', 'error');
+
     const formData = new FormData(bookingForm);
     const payload = {
         name: formData.get('name'),
@@ -422,6 +412,8 @@ function attachEventListeners() {
     if (filtersContainer) {
         filtersContainer.addEventListener('click', handleFilterClick);
         filtersContainer.addEventListener('keydown', filterKeydownHandler);
+
+      codex/refactor-html,-css,-and-js-files-mefy1d
     } else {
         console.warn('Filters container element not found.');
     }
@@ -484,6 +476,40 @@ function handleFilterClick(event) {
         button.dataset.active = isActive.toString();
     });
 
+    }
+
+    modalCloseButton.addEventListener('click', closeEventModal);
+    eventModal.addEventListener('click', event => {
+        if (event.target === eventModal) {
+            closeEventModal();
+        }
+    });
+
+    openBookingModalButton.addEventListener('click', () => openBookingModal());
+    bookingCloseButton.addEventListener('click', closeBookingModal);
+    bookingModal.addEventListener('click', event => {
+        if (event.target === bookingModal) {
+            closeBookingModal();
+        }
+    });
+
+    bookingForm.addEventListener('submit', handleBookingSubmit);
+}
+
+function handleFilterClick(event) {
+    const targetButton = event.target.closest('button.filter-btn');
+    if (!targetButton) {
+        return;
+    }
+
+    state.currentFilter = targetButton.dataset.filter;
+
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        const isActive = normaliseCategory(button.dataset.filter) === normaliseCategory(state.currentFilter);
+        button.dataset.active = isActive.toString();
+    });
+
+main
     renderEvents();
 }
 
@@ -523,6 +549,7 @@ function handleEscapeKey(event) {
    Utility Helpers
    ========================================================================== */
 function setLoading(isLoading) {
+codex/refactor-html,-css,-and-js-files-mefy1d
     if (!loadingSpinner) {
         return;
     }
@@ -543,6 +570,11 @@ function setLoading(isLoading) {
                 }
             });
         }
+    if (isLoading) {
+        loadingSpinner.removeAttribute('hidden');
+    } else {
+        loadingSpinner.setAttribute('hidden', '');
+main
     }
 }
 
