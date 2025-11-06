@@ -46,8 +46,6 @@ const commentsField = document.getElementById('comments');
 document.addEventListener('DOMContentLoaded', initialiseApp);
 
 function initialiseApp() {
-
-  codex/refactor-html,-css,-and-js-files-mefy1d
     try {
         if (!eventsGrid) {
             console.error('Events grid element not found.');
@@ -62,15 +60,6 @@ function initialiseApp() {
         setLoading(false);
         prependBanner('Die Seite konnte nicht vollständig geladen werden. Bitte lade sie erneut.', 'text-red-300 text-center col-span-full', 'initialise-error');
     }
-=======
-    if (!eventsGrid) {
-        console.error('Events grid element not found.');
-        return;
-    }
-
-    attachEventListeners();
-    fetchEvents()
-  main
 }
 
 /* ==========================================================================
@@ -79,6 +68,11 @@ function initialiseApp() {
 async function fetchEvents() {
     setLoading(true);
 
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => {
+        controller.abort();
+    }, 10000);
+
     if (WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
         console.warn('WEB_APP_URL is not configured. Loading demo data.');
         state.events = getDummyData();
@@ -86,11 +80,12 @@ async function fetchEvents() {
         renderEvents();
         setLoading(false);
         prependBanner('Demo-Modus aktiv: Bitte hinterlege die Google Apps Script URL in script.js.', 'text-amber-300 text-center col-span-full', 'demo-banner');
+        window.clearTimeout(timeoutId);
         return;
     }
 
     try {
-        const response = await fetch(WEB_APP_URL);
+        const response = await fetch(WEB_APP_URL, { signal: controller.signal });
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -104,8 +99,12 @@ async function fetchEvents() {
         state.events = getDummyData();
         sortEvents();
         renderEvents();
-        prependBanner('Events konnten nicht geladen werden. Es werden Demo-Daten angezeigt.', 'text-red-300 text-center col-span-full', 'error-banner');
+        const message = error.name === 'AbortError'
+            ? 'Zeitüberschreitung beim Laden der Events. Es werden Demo-Daten angezeigt.'
+            : 'Events konnten nicht geladen werden. Es werden Demo-Daten angezeigt.';
+        prependBanner(message, 'text-red-300 text-center col-span-full', 'error-banner');
     } finally {
+        window.clearTimeout(timeoutId);
         setLoading(false);
     }
 }
@@ -308,6 +307,23 @@ async function handleBookingSubmit(event) {
     bookingMessage.textContent = '';
     bookingMessage.classList.remove('success', 'error');
 
+
+    setModalVisibility(bookingModal, bookingModalContent, true);
+}
+
+function closeBookingModal() {
+    setModalVisibility(bookingModal, bookingModalContent, false);
+    restoreFocus();
+}
+
+async function handleBookingSubmit(event) {
+    event.preventDefault();
+
+    bookingSubmitButton.disabled = true;
+    bookingSubmitButton.textContent = 'Sende...';
+    bookingMessage.textContent = '';
+    bookingMessage.classList.remove('success', 'error');
+
     const formData = new FormData(bookingForm);
     const payload = {
         name: formData.get('name'),
@@ -460,7 +476,6 @@ function handleFilterClick(event) {
         button.dataset.active = isActive.toString();
     });
 
-=======
     }
 
     modalCloseButton.addEventListener('click', closeEventModal);
@@ -547,7 +562,14 @@ codex/refactor-html,-css,-and-js-files-mefy1d
         loadingSpinner.setAttribute('hidden', '');
         loadingSpinner.style.display = 'none';
         loadingSpinner.setAttribute('aria-hidden', 'true');
-=======
+        if (!loadingSpinner.dataset.dismissed) {
+            loadingSpinner.dataset.dismissed = 'true';
+            requestAnimationFrame(() => {
+                if (loadingSpinner && loadingSpinner.parentElement) {
+                    loadingSpinner.parentElement.removeChild(loadingSpinner);
+                }
+            });
+        }
     if (isLoading) {
         loadingSpinner.removeAttribute('hidden');
     } else {
