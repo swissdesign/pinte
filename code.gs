@@ -178,7 +178,7 @@ function appendBooking(payload) {
 }
 
 function validateBookingPayload(payload) {
-  const requiredFields = ['name', 'email', 'date', 'time', 'partySize'];
+  const requiredFields = ['name', 'email', 'phone', 'date', 'time', 'partySize'];
   requiredFields.forEach(field => {
     if (!payload[field]) {
       throw new Error(`Missing required field: ${field}`);
