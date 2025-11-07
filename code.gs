@@ -203,7 +203,7 @@ function getEventICS(id) {
   for (let i = 0; i < data.length; i += 1) {
     const row = data[i];
     const rowId = row[col.id] || `row-${i + 2}`;
-    if (rowId == id) {
+    if (String(rowId) === String(id)) {
       const start = row[col.start] || row[col.date];
       if (!start) return null;
       const event = {
