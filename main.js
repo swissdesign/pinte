@@ -37,7 +37,7 @@ function initializeNavigation() {
   // Main toggle logic
   toggle?.addEventListener('click', () => {
     const isOpen = nav ? nav.classList.toggle('is-open') : false;
-    toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+    toggle.setAttribute('aria-expanded', String(isOpen));
     // Add/remove scroll-lock
     document.body.classList.toggle('nav-is-open', isOpen);
   });
