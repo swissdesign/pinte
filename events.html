@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What's On — Pinte Andermatt</title>
+  <meta name="description" content="Discover live music, quiz nights, club takeovers and special events at Pinte Andermatt.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+  <link rel="canonical" href="https://pinte.amatt.ch/events.html">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="site-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="logo.svg" alt="Pinte Andermatt" width="72" height="72" loading="lazy">
+        <span class="brand-text">Pinte</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="primary-nav" id="primary-navigation" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/menu.html">Eat &amp; Drink</a>
+        <a href="/play.html">Play</a>
+        <a href="/events.html">Events</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-link" href="/">Back to Home</a>
+        <button class="btn btn-primary" data-booking-trigger>Book a Table</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page page-events">
+    <section class="page-hero">
+      <div class="container narrow">
+        <p class="eyebrow">Events</p>
+        <h1>What's on at Pinte</h1>
+        <p class="lead">Live music, quiz nights, big games and club residencies. Filter by vibe or search for your favourite act.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-booking-trigger>Book a table</button>
+          <a class="btn btn-secondary" href="/">Back to home</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="events-controls" aria-label="Event filters">
+      <div class="container">
+        <div class="controls-grid">
+          <div class="control-group">
+            <label for="searchBox" class="control-label">Search events</label>
+            <input type="search" id="searchBox" placeholder="Search by DJ, theme or keyword" autocomplete="off">
+          </div>
+          <div class="control-group">
+            <span class="control-label">Filter by vibe</span>
+            <div id="filters" class="filter-chips" role="group" aria-label="Filter events by category">
+              <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
+              <button type="button" class="chip" data-filter="Live Music">Live Music</button>
+              <button type="button" class="chip" data-filter="Quiz">Quiz</button>
+              <button type="button" class="chip" data-filter="Special">Special</button>
+              <button type="button" class="chip" data-filter="Club Night">Club Night</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="events-grid-section" aria-live="polite">
+      <div class="container">
+        <div id="events-grid" class="events-grid" data-loading>
+          <div class="event-card skeleton" aria-hidden="true"></div>
+          <div class="event-card skeleton" aria-hidden="true"></div>
+          <div class="event-card skeleton" aria-hidden="true"></div>
+        </div>
+        <div id="events-empty" class="events-empty" hidden>
+          <h2>No events match your filters.</h2>
+          <p>Try a different vibe or <button class="btn btn-inline" data-reset-filters type="button">reset filters</button>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h2>Pinte Andermatt</h2>
+        <p>Gotthardstrasse 43<br>6490 Andermatt, Switzerland</p>
+        <a class="btn btn-link" href="https://maps.app.goo.gl/EHFh8t3i7Z6QG7y36" target="_blank" rel="noreferrer">Open map</a>
+      </div>
+      <div>
+        <h3>Hours</h3>
+        <p>Mon–Thu: 16:00 – 00:30<br>Fri: 16:00 – 02:00<br>Sat: 14:00 – 02:00<br>Sun: 14:00 – 00:30</p>
+      </div>
+      <div>
+        <h3>Stay in touch</h3>
+        <p><a href="tel:+41878797111">+41 87 879 71 11</a><br><a href="mailto:hello@pinte.amatt.ch">hello@pinte.amatt.ch</a></p>
+        <div class="footer-links">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-sticky" role="navigation" aria-label="Quick actions">
+    <button data-booking-trigger>Book</button>
+    <a href="/menu.html">Menu</a>
+    <a href="/events.html">Events</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+
+  <div class="modal" id="bookingModal" aria-hidden="true" role="dialog" aria-labelledby="bookingModalTitle">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-dialog" role="document">
+      <button class="modal-close" type="button" data-modal-close aria-label="Close booking form">×</button>
+      <h2 id="bookingModalTitle" class="modal-title">Book a table</h2>
+      <form id="bookingForm" novalidate>
+        <div class="form-row">
+          <label for="bookingName">Full name</label>
+          <input id="bookingName" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="form-row">
+          <label for="bookingEmail">Email</label>
+          <input id="bookingEmail" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="form-row">
+          <label for="bookingPhone">Phone</label>
+          <input id="bookingPhone" name="phone" type="tel" autocomplete="tel" required>
+        </div>
+        <div class="form-row form-row-inline">
+          <div>
+            <label for="bookingDate">Date</label>
+            <input id="bookingDate" name="date" type="date" required>
+          </div>
+          <div>
+            <label for="bookingTime">Time</label>
+            <input id="bookingTime" name="time" type="time" required>
+          </div>
+          <div>
+            <label for="bookingSize">Guests</label>
+            <input id="bookingSize" name="partySize" type="number" min="1" max="20" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="bookingNotes">Notes</label>
+          <textarea id="bookingNotes" name="notes" rows="3" placeholder="Celebrating something special?"></textarea>
+        </div>
+        <div id="bookingMessage" class="form-message" role="status" aria-live="polite"></div>
+        <button id="bookingSubmit" class="btn btn-primary" type="submit">Send request</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="eventModal" aria-hidden="true" role="dialog" aria-labelledby="eventModalTitle">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-dialog" role="document">
+      <button class="modal-close" type="button" data-modal-close aria-label="Close event details">×</button>
+      <div class="event-modal-body">
+        <h2 id="eventModalTitle" tabindex="-1"></h2>
+        <p id="eventModalDate" class="event-modal-meta"></p>
+        <p id="eventModalDescription"></p>
+        <div class="event-modal-actions">
+          <a id="eventModalTicket" class="btn btn-secondary" href="#" target="_blank" rel="noreferrer">Get tickets</a>
+          <button class="btn btn-primary" data-booking-trigger>Book a table</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js" defer></script>
+</body>
+</html>
