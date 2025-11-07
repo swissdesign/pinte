@@ -753,7 +753,6 @@ textarea:focus-visible {
   }
 }
 
-/* VERIFY THIS ENTIRE BLOCK EXISTS AT THE END OF style.css */
 @media (max-width: 900px) {
   .primary-nav {
     position: fixed;
