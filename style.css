@@ -753,6 +753,7 @@ textarea:focus-visible {
   }
 }
 
+/* VERIFY THIS ENTIRE BLOCK EXISTS AT THE END OF style.css */
 @media (max-width: 900px) {
   .primary-nav {
     position: fixed;
@@ -766,22 +767,29 @@ textarea:focus-visible {
     justify-content: flex-start;
     gap: 1.5rem;
     /* This transform hides it off-screen by default */
-    transform: translateY(-100%);
-    transition: transform 0.3s ease;
-    /* Ensure it's below other content */
-    z-index: 0;
+    transform: translateY(-120%);
+    min-height: 100vh;
+    overflow-y: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    /* Ensure it's above other content */
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   /* This class, toggled by JS, slides the menu in */
   .primary-nav.is-open {
     transform: translateY(0);
-    z-index: 998;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .nav-toggle {
     display: inline-flex;
     /* Ensure toggle is above the nav */
-    z-index: 999;
+    z-index: 1001;
   }
 
   .header-actions {
