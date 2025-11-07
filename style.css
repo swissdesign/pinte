@@ -23,6 +23,10 @@ body.site-body {
   line-height: 1.6;
 }
 
+body.nav-is-open {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
 }
@@ -713,46 +717,6 @@ textarea:focus-visible {
   top: 0.4rem;
 }
 
-@media (max-width: 900px) {
-  .primary-nav {
-    position: fixed;
-    inset: 0;
-    padding-top: 5.5rem;
-    background: rgba(15, 15, 15, 0.97);
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    transform: translateY(-100%);
-    transition: transform 0.3s ease;
-  }
-
-  .primary-nav.is-open {
-    transform: translateY(0);
-  }
-
-  .nav-toggle {
-    display: inline-flex;
-  }
-
-  .header-actions {
-    display: none;
-  }
-
-  .hero {
-    min-height: 70vh;
-  }
-
-  .doors-grid,
-  .feature-grid .container,
-  .contact-grid .container {
-    grid-template-columns: 1fr;
-  }
-
-  .mobile-sticky {
-    display: grid;
-  }
-}
-
 @media (min-width: 768px) {
   .doors-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -786,5 +750,54 @@ textarea:focus-visible {
 
   .site-footer {
     padding-bottom: 6rem;
+  }
+}
+
+/* VERIFY THIS ENTIRE BLOCK EXISTS AT THE END OF style.css */
+@media (max-width: 900px) {
+  .primary-nav {
+    position: fixed;
+    /* Use inset to cover the screen */
+    inset: 0;
+    padding-top: 5.5rem;
+    /* This background is critical and matches user report */
+    background: rgba(15, 15, 15, 0.97);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    /* This transform hides it off-screen by default */
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    /* Ensure it's above other content */
+    z-index: 998;
+  }
+
+  /* This class, toggled by JS, slides the menu in */
+  .primary-nav.is-open {
+    transform: translateY(0);
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    /* Ensure toggle is above the nav */
+    z-index: 999;
+  }
+
+  .header-actions {
+    display: none;
+  }
+
+  .hero {
+    min-height: 70vh;
+  }
+
+  .doors-grid,
+  .feature-grid .container,
+  .contact-grid .container {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-sticky {
+    display: grid;
   }
 }
