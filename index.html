@@ -1,230 +1,181 @@
 <!DOCTYPE html>
-<html lang="de" class="dark">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinte - Pub & Club | Andermatt, Switzerland</title>
-
-    <!-- 1. Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- 2. Google Fonts: Chalk-style and a clean sans-serif -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- 3. Custom Styling & Font Configuration -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pinte Pub & Club Andermatt — Burgers, Darts, DJs</title>
+  <meta name="description" content="Your British pub and late-night club in Andermatt. Burgers, darts, pub quiz, DJs and cocktails every week.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+  <link rel="canonical" href="https://pinte.amatt.ch/">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-neutral-900 text-neutral-200 min-h-screen">
-
-    <!-- Loading Spinner -->
-    <div id="loadingSpinner" class="fixed inset-0 bg-neutral-900 bg-opacity-80 flex flex-col items-center justify-center z-[100] gap-6" role="status" aria-live="polite">
-     <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 1077.17 1077.17" fill="currentColor" aria-hidden="true">
-  <rect x="186.36" y="604.69" width="715.26" height="19.81"/>
-  <rect x="186.36" y="584.89" width="715.26" height="6.62"/>
-  <rect x="186.36" y="213.06" width="715.26" height="19.81"/>
-  <rect x="186.36" y="246.06" width="715.26" height="6.62"/>
-  <path d="M861.4,514.16h-96.14v9.58h104.94v-36.25h-8.8v26.66ZM302.42,357.4c-3.6-1.49-8.01-1.84-13.22-1.84h-8.02v61.42c-2.7.34-5.61.55-8.8.67v-71.67h8.02c10.8,0,18.28,1.28,22.03,11.42M289.98,414.99v-49.85h8.01c2.29,0,4.38.1,6.34.31.55,3.82.84,8.34.84,13.77,0,22.55-4.77,31.88-15.2,35.77M347.51,379.22c0-56.14-27.3-65.4-68.37-65.4h-49.09v190.76h42.33v-56.96c48.34-1.09,75.14-15.26,75.14-68.4M365.12,398.39c0-28.2-6.9-44.56-18.96-53.87,6.53,9.82,10.15,23.95,10.15,44.29,0,53.14-26.8,67.31-75.14,68.4v56.96h-33.52v9.58h42.33v-56.96c48.34-1.09,75.14-15.26,75.14-68.4M378.83,504.58h42.83v-190.76h-42.83v190.76ZM396.44,523.75h42.83v-190.76h-8.81v181.18h-34.02v9.58ZM541.53,504.58h38.07v-190.76h-41.07v53.41c0,7.98.3,16.85.71,25.25-.3-.67-.58-1.34-.88-2l-25.8-57.5h-4.5l21.5,47.92c3.9,8.67,7.45,17.54,10.48,25.6.75,11.79,1.5,20.41,1.5,20.41,0,0-8.76-28.89-20.78-55.59l-25.8-57.5h-40.32v190.76h41.07v-57.5c0-23.98-3.5-57.77-3.5-57.77,0,0,4.57,13.05,10.44,28.01.91,11.66,1.87,26.82,1.87,39.35v57.5h-32.27v9.58h41.07v-57.5c0-8-.39-17.06-.91-25.62.11.24.22.49.33.73l28.8,63.22ZM559.15,523.75h38.07v-190.76h-8.81v181.18h-33.63l4.37,9.58ZM725.42,350.34l5.01-36.52h-124.98v36.52h41.32v9.58h-23.71v9.58h23.71v135.08h42.33v-154.24h36.32ZM706.71,369.5h31.97v-36.52h-.77l-3.7,26.93h-36.31v154.25h-33.52v9.58h42.33v-154.25ZM871.46,332.98h-9.67l-2.39,26.66h-60.61v27.75h-8.8v-37.33h60.61l3.26-36.25h-106.19v190.76h104.94v-36.24h-45v-29.07h52.59v-32.7h-8.81v23.12h-52.59v38.65h-8.8v-48.23h52.59v-32.7h-34.98v-18.17h60.61l3.26-36.25Z"/>
-  <path d="M763.41,731.35c0,9.02-3.79,10.46-11.97,10.46h-3.48v-21.37h3.38c8.39,0,12.07,1.56,12.07,10.9M761.47,697.75c0,8.57-2.86,10.46-10.13,10.46h-3.38v-19.15h3.27c6.96,0,10.23,1.22,10.23,8.68M780.7,732.13c0-14.35-9.21-17.14-15.86-18.25,6.14-1.56,13.81-4.56,13.81-17.36,0-17.58-11.15-20.03-27.62-20.03h-20.36v77.91h20.36c18.11,0,29.66-2.01,29.66-22.26M718.5,730.58v-54.09h-17.29v53.76c0,8.46-2.05,11.24-7.47,11.24s-7.57-3.34-7.57-11.24v-53.76h-17.29v54.09c0,17.48,7.26,24.93,24.86,24.93s24.75-7.9,24.75-24.93M662.34,739.59h-21.79v-63.1h-17.28v77.91h37.43l1.64-14.8ZM611.04,752.5v-14.24s-7.06,2.78-13.5,2.78c-7.67,0-11.56-5.46-11.56-25.6s5.63-25.93,12.58-25.93c5.32,0,12.48,2.78,12.48,2.78v-14.13s-5.63-2.79-13.4-2.79c-10.13,0-28.95,3.9-28.95,40.07s15.24,40.07,27.41,40.07c9.1,0,14.93-3,14.93-3M499.91,727.47c0-4.04,2.63-6.9,8.35-11.45,4.17,6.4,12.52,18.68,18.09,25.92-2.48,3.53-6.03,6.73-10.21,6.73-7.12,0-16.24-17.17-16.24-21.21M518.78,709.12c6.03-4.37,10.36-9.42,10.36-17.67s-5.42-13.13-12.06-13.13c-8.82,0-15.31,8.08-15.31,17.67,0,6.06,1.7,11.78,5.1,17.67-8.51,6.39-16.24,13.8-16.24,24.06,0,6.39,5.41,18,16.24,18,9.9,0,14.54-4.54,21.19-11.95,5.41,7.58,11.13,11.95,16.39,11.95,10.05,0,14.85-9.59,18.25-17.17l-1.55-1.01c-2.63,3.7-5.41,10.1-10.36,10.1s-11.13-9.43-15.31-14.98c1.55-2.69,7.27-12.29,9.28-12.45-.47,1.01-.78,2.19-.78,4.04,0,2.52,1.86,6.06,5.57,6.06s6.49-2.69,6.49-7.4-3.4-7.74-6.81-7.74c-5.57,0-8.19,4.54-15,15.99l-15.47-22.05ZM511.04,689.77c0-5.38,2.94-8.75,7.74-8.75,4.48,0,7.89,5.22,7.89,10.43,0,7.74-4.17,12.29-9.28,15.48-2.94-5.05-6.34-10.77-6.34-17.17M462.15,731.35c0,9.02-3.78,10.46-11.97,10.46h-3.48v-21.37h3.38c8.39,0,12.07,1.56,12.07,10.9M460.21,697.75c0,8.57-2.86,10.46-10.13,10.46h-3.38v-19.15h3.27c6.96,0,10.23,1.22,10.23,8.68M479.43,732.13c0-14.35-9.2-17.14-15.85-18.25,6.14-1.56,13.81-4.56,13.81-17.36,0-17.58-11.15-20.03-27.62-20.03h-20.35v77.91h20.35c18.11,0,29.66-2.01,29.66-22.26M417.24,730.58v-54.09h-17.29v53.76c0,8.46-2.04,11.24-7.47,11.24s-7.57-3.34-7.57-11.24v-53.76h-17.29v54.09c0,17.48,7.26,24.93,24.85,24.93s24.75-7.9,24.75-24.93M340.6,703.2c0,13.35-4.09,15.36-13.4,15.69v-29.27h3.27c6.55,0,10.13,1.11,10.13,13.58M357.88,703.2c0-22.92-11.15-26.71-27.92-26.71h-20.05v77.91h17.28v-23.26c19.74-.45,30.69-6.23,30.69-27.93"/>
-</svg>
-        <span class="text-xl font-chalk text-white">Lade Events...</span>
+<body class="site-body">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="logo.svg" alt="Pinte Andermatt" width="72" height="72" loading="lazy">
+        <span class="brand-text">Pinte</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="primary-nav" id="primary-navigation" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/menu.html">Eat &amp; Drink</a>
+        <a href="/play.html">Play</a>
+        <a href="/events.html">Events</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+      <button class="btn btn-primary" data-booking-trigger>Book a Table</button>
     </div>
+  </header>
 
-    <!-- Skip link for improved accessibility -->
-    <a href="#events" class="skip-link">Zum Eventbereich springen</a>
+  <main id="main">
+    <section class="hero">
+      <div class="hero-media" aria-hidden="true">
+        <picture>
+          <source srcset="https://images.unsplash.com/photo-1532634922-8fe0b757fb13?auto=format&fit=crop&w=1500&q=80" type="image/jpeg">
+          <img src="https://images.unsplash.com/photo-1532634922-8fe0b757fb13?auto=format&fit=crop&w=1500&q=80" alt="Friends enjoying drinks at the bar" loading="lazy" decoding="async">
+        </picture>
+      </div>
+      <div class="hero-content container">
+        <p class="eyebrow">British Pub &amp; Late Club</p>
+        <h1>Your British Pub &amp; Club in Andermatt.</h1>
+        <p class="lead">Pub food, darts, fussball, quiz nights and DJs until late. Swing by for a pint or dance through the night.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-booking-trigger>Book a Table</button>
+          <a class="btn btn-secondary" href="/events.html">See what's on</a>
+        </div>
+      </div>
+    </section>
 
-    <!-- Header -->
-    <header class="sticky top-0 z-40 bg-neutral-900 bg-opacity-80 backdrop-blur-md border-b border-neutral-700 transition-transform duration-300">
-        <nav class="container mx-auto px-4 py-4 flex justify-between items-center" aria-label="Hauptnavigation">
-            <a href="#" class="flex items-center" aria-label="Pinte Startseite">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 1077.17 1077.17" fill="currentColor" aria-hidden="true">
-  <rect x="186.36" y="604.69" width="715.26" height="19.81"/>
-  <rect x="186.36" y="584.89" width="715.26" height="6.62"/>
-  <rect x="186.36" y="213.06" width="715.26" height="19.81"/>
-  <rect x="186.36" y="246.06" width="715.26" height="6.62"/>
-  <path d="M861.4,514.16h-96.14v9.58h104.94v-36.25h-8.8v26.66ZM302.42,357.4c-3.6-1.49-8.01-1.84-13.22-1.84h-8.02v61.42c-2.7.34-5.61.55-8.8.67v-71.67h8.02c10.8,0,18.28,1.28,22.03,11.42M289.98,414.99v-49.85h8.01c2.29,0,4.38.1,6.34.31.55,3.82.84,8.34.84,13.77,0,22.55-4.77,31.88-15.2,35.77M347.51,379.22c0-56.14-27.3-65.4-68.37-65.4h-49.09v190.76h42.33v-56.96c48.34-1.09,75.14-15.26,75.14-68.4M365.12,398.39c0-28.2-6.9-44.56-18.96-53.87,6.53,9.82,10.15,23.95,10.15,44.29,0,53.14-26.8,67.31-75.14,68.4v56.96h-33.52v9.58h42.33v-56.96c48.34-1.09,75.14-15.26,75.14-68.4M378.83,504.58h42.83v-190.76h-42.83v190.76ZM396.44,523.75h42.83v-190.76h-8.81v181.18h-34.02v9.58ZM541.53,504.58h38.07v-190.76h-41.07v53.41c0,7.98.3,16.85.71,25.25-.3-.67-.58-1.34-.88-2l-25.8-57.5h-4.5l21.5,47.92c3.9,8.67,7.45,17.54,10.48,25.6.75,11.79,1.5,20.41,1.5,20.41,0,0-8.76-28.89-20.78-55.59l-25.8-57.5h-40.32v190.76h41.07v-57.5c0-23.98-3.5-57.77-3.5-57.77,0,0,4.57,13.05,10.44,28.01.91,11.66,1.87,26.82,1.87,39.35v57.5h-32.27v9.58h41.07v-57.5c0-8-.39-17.06-.91-25.62.11.24.22.49.33.73l28.8,63.22ZM559.15,523.75h38.07v-190.76h-8.81v181.18h-33.63l4.37,9.58ZM725.42,350.34l5.01-36.52h-124.98v36.52h41.32v9.58h-23.71v9.58h23.71v135.08h42.33v-154.24h36.32ZM706.71,369.5h31.97v-36.52h-.77l-3.7,26.93h-36.31v154.25h-33.52v9.58h42.33v-154.25ZM871.46,332.98h-9.67l-2.39,26.66h-60.61v27.75h-8.8v-37.33h60.61l3.26-36.25h-106.19v190.76h104.94v-36.24h-45v-29.07h52.59v-32.7h-8.81v23.12h-52.59v38.65h-8.8v-48.23h52.59v-32.7h-34.98v-18.17h60.61l3.26-36.25Z"/>
-  <path d="M763.41,731.35c0,9.02-3.79,10.46-11.97,10.46h-3.48v-21.37h3.38c8.39,0,12.07,1.56,12.07,10.9M761.47,697.75c0,8.57-2.86,10.46-10.13,10.46h-3.38v-19.15h3.27c6.96,0,10.23,1.22,10.23,8.68M780.7,732.13c0-14.35-9.21-17.14-15.86-18.25,6.14-1.56,13.81-4.56,13.81-17.36,0-17.58-11.15-20.03-27.62-20.03h-20.36v77.91h20.36c18.11,0,29.66-2.01,29.66-22.26M718.5,730.58v-54.09h-17.29v53.76c0,8.46-2.05,11.24-7.47,11.24s-7.57-3.34-7.57-11.24v-53.76h-17.29v54.09c0,17.48,7.26,24.93,24.86,24.93s24.75-7.9,24.75-24.93M662.34,739.59h-21.79v-63.1h-17.28v77.91h37.43l1.64-14.8ZM611.04,752.5v-14.24s-7.06,2.78-13.5,2.78c-7.67,0-11.56-5.46-11.56-25.6s5.63-25.93,12.58-25.93c5.32,0,12.48,2.78,12.48,2.78v-14.13s-5.63-2.79-13.4-2.79c-10.13,0-28.95,3.9-28.95,40.07s15.24,40.07,27.41,40.07c9.1,0,14.93-3,14.93-3M499.91,727.47c0-4.04,2.63-6.9,8.35-11.45,4.17,6.4,12.52,18.68,18.09,25.92-2.48,3.53-6.03,6.73-10.21,6.73-7.12,0-16.24-17.17-16.24-21.21M518.78,709.12c6.03-4.37,10.36-9.42,10.36-17.67s-5.42-13.13-12.06-13.13c-8.82,0-15.31,8.08-15.31,17.67,0,6.06,1.7,11.78,5.1,17.67-8.51,6.39-16.24,13.8-16.24,24.06,0,6.39,5.41,18,16.24,18,9.9,0,14.54-4.54,21.19-11.95,5.41,7.58,11.13,11.95,16.39,11.95,10.05,0,14.85-9.59,18.25-17.17l-1.55-1.01c-2.63,3.7-5.41,10.1-10.36,10.1s-11.13-9.43-15.31-14.98c1.55-2.69,7.27-12.29,9.28-12.45-.47,1.01-.78,2.19-.78,4.04,0,2.52,1.86,6.06,5.57,6.06s6.49-2.69,6.49-7.4-3.4-7.74-6.81-7.74c-5.57,0-8.19,4.54-15,15.99l-15.47-22.05ZM511.04,689.77c0-5.38,2.94-8.75,7.74-8.75,4.48,0,7.89,5.22,7.89,10.43,0,7.74-4.17,12.29-9.28,15.48-2.94-5.05-6.34-10.77-6.34-17.17M462.15,731.35c0,9.02-3.78,10.46-11.97,10.46h-3.48v-21.37h3.38c8.39,0,12.07,1.56,12.07,10.9M460.21,697.75c0,8.57-2.86,10.46-10.13,10.46h-3.38v-19.15h3.27c6.96,0,10.23,1.22,10.23,8.68M479.43,732.13c0-14.35-9.2-17.14-15.85-18.25,6.14-1.56,13.81-4.56,13.81-17.36,0-17.58-11.15-20.03-27.62-20.03h-20.35v77.91h20.35c18.11,0,29.66-2.01,29.66-22.26M417.24,730.58v-54.09h-17.29v53.76c0,8.46-2.04,11.24-7.47,11.24s-7.57-3.34-7.57-11.24v-53.76h-17.29v54.09c0,17.48,7.26,24.93,24.85,24.93s24.75-7.9,24.75-24.93M340.6,703.2c0,13.35-4.09,15.36-13.4,15.69v-29.27h3.27c6.55,0,10.13,1.11,10.13,13.58M357.88,703.2c0-22.92-11.15-26.71-27.92-26.71h-20.05v77.91h17.28v-23.26c19.74-.45,30.69-6.23,30.69-27.93"/>
-</svg>
-            </a>
-
-            <div class="hidden md:flex space-x-6">
-                <a href="#events" class="text-neutral-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Events</a>
-                <a href="#" class="text-neutral-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Menü</a>
-                <a href="#" class="text-neutral-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Galerie</a>
-                <a href="#" class="text-neutral-300 hover:text-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-yellow-400">Kontakt</a>
+    <section class="two-doors" aria-labelledby="two-doors-title">
+      <div class="container">
+        <h2 id="two-doors-title">Two doors. One night to remember.</h2>
+        <div class="doors-grid">
+          <article class="door door-pub">
+            <h3>The Pub</h3>
+            <p>Burgers stacked high, cold beers on tap and every match on screen. Darts, fussball and the famous pub quiz.</p>
+            <div class="door-actions">
+              <a class="btn btn-outline" href="/menu.html">View the menu</a>
+              <a class="btn btn-link" href="/play.html">Game on</a>
             </div>
-            <button id="openBookingModal" class="bg-yellow-500 text-neutral-900 font-bold py-2 px-4 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Platz sichern</button>
-            <!-- Mobile Menu Button (placeholder) -->
-            <button class="md:hidden bg-neutral-800 p-2 rounded-lg" aria-label="Mobiles Menü öffnen">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container mx-auto p-4 md:p-8" id="events">
-
-        <!-- Filters -->
-        <div id="filters" class="mb-6 flex flex-wrap gap-2 md:gap-4 justify-center" aria-label="Eventfilter">
-            <button class="filter-btn" data-filter="all" data-active="true">Alle Events</button>
-            <button class="filter-btn" data-filter="Live Music" data-active="false">Live-Musik</button>
-            <button class="filter-btn" data-filter="Quiz" data-active="false">Quiz</button>
-            <button class="filter-btn" data-filter="Special" data-active="false">Specials</button>
-            <button class="filter-btn" data-filter="Club Night" data-active="false">Club-Nacht</button>
-        </div>
-
-        <div class="mb-6 max-w-md mx-auto">
-            <input type="search" id="searchBox" placeholder="Suche nach Events, DJs, Tags..." class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" />
-        </div>
-
-        <!-- Event Calendar Grid -->
-        <section id="events-grid" class="grid grid-cols-3 gap-6 auto-rows-[minmax(150px,auto)]" aria-live="polite">
-            <!-- Event cards will be dynamically inserted here by JavaScript -->
-        </section>
-
-    </main>
-
-    <!-- Event Detail Modal -->
-    <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription" aria-hidden="true">
-        <div id="eventModalContent" class="bg-neutral-800 rounded-lg shadow-2xl w-full max-w-2xl overflow-hidden" tabindex="-1">
-            <img id="modalImage" src="" alt="" class="w-full h-64 object-cover">
-            <div class="p-6">
-                <h2 id="modalTitle" class="text-4xl font-chalk text-yellow-400 mb-2"></h2>
-                <span id="modalDate" class="block text-lg text-neutral-300 mb-4"></span>
-                <p id="modalDescription" class="text-neutral-300 mb-6"></p>
-                <div class="flex flex-wrap gap-4 justify-between items-center">
-                    <button id="modalClose" class="bg-neutral-600 text-white py-2 px-6 rounded-lg hover:bg-neutral-500 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Schließen</button>
-                    <!-- Button container: Only one of the next two will be shown -->
-                    <div class="flex gap-2">
-                        <button id="modalBook" class="bg-yellow-500 text-neutral-900 font-bold py-2 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Platz reservieren</button>
-                        <a id="modalPhotos" href="#" target="_blank" class="hidden bg-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-md hover:bg-blue-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-200">Fotos ansehen</a>
-                    </div>
-                </div>
+          </article>
+          <article class="door door-club">
+            <h3>The Club</h3>
+            <p>After dark the lights drop, the DJs arrive and cocktails take over. Late nights, special guests and club takeovers.</p>
+            <div class="door-actions">
+              <a class="btn btn-outline" href="/events.html">Upcoming events</a>
             </div>
+          </article>
         </div>
+      </div>
+    </section>
+
+    <section class="whats-on" aria-labelledby="events-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 id="events-title">What's on this week</h2>
+          <a class="btn btn-link" href="/events.html">View all events</a>
+        </div>
+        <div id="event-teaser-container" class="event-teasers">
+          <div class="event-teaser-skeleton" aria-hidden="true">Loading events…</div>
+        </div>
+        <div id="event-fallback" class="event-fallback" hidden>
+          <h3>Always something happening</h3>
+          <p>Drop in for a pint or gather the crew for darts. Check the board in-house for tonight’s surprise.</p>
+          <button class="btn btn-primary" data-booking-trigger>Reserve your table</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="social-proof" aria-labelledby="social-proof-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 id="social-proof-title">Seen at Pinte</h2>
+          <p class="lead">Join the community — tag <strong>@pinteandermatt</strong> for a chance to be featured.</p>
+        </div>
+        <div class="ig-grid" role="list">
+          <a role="listitem" href="https://www.instagram.com/p/CwYp4UXM1_3/" target="_blank" rel="noreferrer" class="ig-card">
+            <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=600&q=80" alt="Friends raising a toast" loading="lazy" decoding="async">
+          </a>
+          <a role="listitem" href="https://www.instagram.com/p/CxL2mdAMKcF/" target="_blank" rel="noreferrer" class="ig-card">
+            <img src="https://images.unsplash.com/photo-1527169402691-feff5539e52c?auto=format&fit=crop&w=600&q=80" alt="DJ performing at the club" loading="lazy" decoding="async">
+          </a>
+          <a role="listitem" href="https://www.instagram.com/p/CxA5pLBsa8S/" target="_blank" rel="noreferrer" class="ig-card">
+            <img src="https://images.unsplash.com/photo-1519750157634-b6d493a0f77c?auto=format&fit=crop&w=600&q=80" alt="Cocktail being poured" loading="lazy" decoding="async">
+          </a>
+          <a role="listitem" href="https://www.instagram.com/p/CxaJj2zsY6X/" target="_blank" rel="noreferrer" class="ig-card">
+            <img src="https://images.unsplash.com/photo-1535968881748-3c5d94b0fdf4?auto=format&fit=crop&w=600&q=80" alt="Pub quiz team celebrating" loading="lazy" decoding="async">
+          </a>
+        </div>
+        <blockquote class="review">
+          <p>“Hands down the best vibe in town. We came for the burgers, stayed for the DJ and booked again for darts night.”</p>
+          <cite>— Emma, Zürich</cite>
+        </blockquote>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h2>Pinte Andermatt</h2>
+        <p>Gotthardstrasse 43<br>6490 Andermatt, Switzerland</p>
+        <a class="btn btn-link" href="https://maps.app.goo.gl/EHFh8t3i7Z6QG7y36" target="_blank" rel="noreferrer">Open map</a>
+      </div>
+      <div>
+        <h3>Hours</h3>
+        <p>Mon–Thu: 16:00 – 00:30<br>Fri: 16:00 – 02:00<br>Sat: 14:00 – 02:00<br>Sun: 14:00 – 00:30</p>
+      </div>
+      <div>
+        <h3>Stay in touch</h3>
+        <p><a href="tel:+41878797111">+41 87 879 71 11</a><br><a href="mailto:hello@pinte.amatt.ch">hello@pinte.amatt.ch</a></p>
+        <div class="footer-links">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+        </div>
+      </div>
     </div>
+  </footer>
 
-    <!-- Booking Modal -->
-    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle" aria-describedby="bookingMessage" aria-hidden="true">
-        <div id="bookingModalContent" class="bg-neutral-800 rounded-lg shadow-2xl w-full max-w-lg p-6" tabindex="-1">
-            <h2 id="bookingModalTitle" class="text-3xl font-chalk text-yellow-400 mb-6">Tisch reservieren</h2>
-            <form id="bookingForm" novalidate>
-                <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-neutral-300 mb-1">Vollständiger Name</label>
-                    <input type="text" id="name" name="name" required autocomplete="name" class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-neutral-300 mb-1">E-Mail</label>
-                    <input type="email" id="email" name="email" required autocomplete="email" class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label for="date" class="block text-sm font-medium text-neutral-300 mb-1">Datum</label>
-                        <input type="date" id="date" name="date" required class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" style="color-scheme: dark;">
-                    </div>
-                    <div>
-                        <label for="time" class="block text-sm font-medium text-neutral-300 mb-1">Uhrzeit</label>
-                        <input type="time" id="time" name="time" required class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500" style="color-scheme: dark;">
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label for="guests" class="block text-sm font-medium text-neutral-300 mb-1">Anzahl der Gäste</label>
-                    <input type="number" id="guests" name="guests" min="1" max="20" required class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                </div>
-                <div class="mb-4">
-                    <label for="comments" class="block text-sm font-medium text-neutral-300 mb-1">Anmerkungen (z.B. bestimmtes Event)</label>
-                    <textarea id="comments" name="comments" rows="3" class="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"></textarea>
-                </div>
-                <div class="mb-4">
-                    <label class="flex items-center">
-                        <input type="checkbox" id="consent" name="consent" class="h-4 w-4 bg-neutral-700 border-neutral-600 rounded text-yellow-500 focus:ring-yellow-500">
-                        <span class="ml-2 text-sm text-neutral-400">Melde mich für den wöchentlichen "Was ist los"-Newsletter an.</span>
-                    </label>
-                </div>
-                <div class="flex flex-wrap gap-2 justify-between items-center">
-                    <button type="button" id="bookingClose" class="bg-neutral-600 text-white py-2 px-6 rounded-lg hover:bg-neutral-500 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Abbrechen</button>
-                    <button type="submit" id="bookingSubmit" class="bg-yellow-500 text-neutral-900 font-bold py-2 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">Anfrage senden</button>
-                </div>
-                <div id="bookingMessage" class="mt-4 text-center" role="status"></div>
-            </form>
-        </div>
-    </div>
+  <div class="mobile-sticky" role="navigation" aria-label="Quick actions">
+    <button data-booking-trigger>Book</button>
+    <a href="/menu.html">Menu</a>
+    <a href="/events.html">Events</a>
+    <a href="/contact.html">Contact</a>
+  </div>
 
-    <!-- Chatbot Placeholder -->
-    <div class="fixed bottom-6 right-6 z-30">
-        <button class="bg-yellow-500 text-neutral-900 w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-400 transition duration-300 transform hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400" aria-label="Chatbot öffnen">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2.046 17.65A.5.5 0 011.5 17.146l.654-2.88A7.95 7.95 0 012 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm4 0H9v2h2V9zm4 0h-2v2h2V9z" clip-rule="evenodd" />
-            </svg>
-        </button>
-    </div>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Pinte Andermatt",
+    "image": "https://pinte.amatt.ch/logo.svg",
+    "@id": "https://pinte.amatt.ch/",
+    "url": "https://pinte.amatt.ch/",
+    "telephone": "+41878797111",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Gotthardstrasse 43",
+      "addressLocality": "Andermatt",
+      "postalCode": "6490",
+      "addressCountry": "CH"
+    },
+    "openingHoursSpecification": [
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday"], "opens": "16:00", "closes": "00:30"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "16:00", "closes": "02:00"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "14:00", "closes": "02:00"},
+      {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "14:00", "closes": "00:30"}
+    ],
+    "priceRange": "CHF"
+  }
+  </script>
 
-    <!-- Footer -->
-    <footer class="bg-neutral-950 border-t border-neutral-800 mt-16">
-        <div class="container mx-auto px-4 py-12 text-center">
-            <div class="flex justify-center">
-                <img src="logo.svg" alt="Pinte Logo" class="h-16 w-auto">
-            </div>
-
-            <div class="partner-slider mt-8" aria-label="Partner und Unterstützer">
-                <div class="partner-track">
-                    <a href="https://alpenbrau.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
-                        <img src="partners/alpenbrau.svg" alt="Alpenbräu" class="partner-logo">
-                    </a>
-                    <a href="https://andermattroasters.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
-                        <img src="partners/andermatt-roasters.svg" alt="Andermatt Roasters" class="partner-logo">
-                    </a>
-                    <a href="https://ursnerspirit.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
-                        <img src="partners/ursner-spirit.svg" alt="Ursner Spirit" class="partner-logo">
-                    </a>
-                    <a href="https://gotthardadventures.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
-                        <img src="partners/gotthard-adventures.svg" alt="Gotthard Adventures" class="partner-logo">
-                    </a>
-                    <!-- Duplicate logos for seamless auto-scroll -->
-                    <a href="https://alpenbrau.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
-                        <img src="partners/alpenbrau.svg" alt="Alpenbräu" class="partner-logo">
-                    </a>
-                    <a href="https://andermattroasters.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
-                        <img src="partners/andermatt-roasters.svg" alt="Andermatt Roasters" class="partner-logo">
-                    </a>
-                    <a href="https://ursnerspirit.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
-                        <img src="partners/ursner-spirit.svg" alt="Ursner Spirit" class="partner-logo">
-                    </a>
-                    <a href="https://gotthardadventures.example.com" class="partner-slide" target="_blank" rel="noopener noreferrer">
-                        <img src="partners/gotthard-adventures.svg" alt="Gotthard Adventures" class="partner-logo">
-                    </a>
-                </div>
-            </div>
-
-            <div class="mt-10 text-sm text-neutral-400 space-y-2">
-                <p>&copy; <span id="currentYear"></span> Pinte Pub & Club. Alle Rechte vorbehalten.</p>
-                <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 justify-center">
-                    <a href="impressum.html" class="footer-link">Impressum</a>
-                    <a href="datenschutz.html" class="footer-link">Datenschutzerklärung</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Cookie Banner -->
-    <div id="cookieBanner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie Hinweis" aria-hidden="false">
-        <div class="cookie-banner__content">
-            <p class="cookie-banner__text">
-                Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und Pflichtfunktionen zu ermöglichen.
-                <a href="datenschutz.html" class="footer-link underline">Mehr erfahren</a> ·
-                <a href="impressum.html" class="footer-link underline">Impressum</a>
-            </p>
-            <div class="cookie-banner__actions">
-                <button type="button" class="cookie-btn cookie-btn--secondary" data-action="essential">Nur notwendige</button>
-                <button type="button" class="cookie-btn cookie-btn--primary" data-action="accept">Alle akzeptieren</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript -->
-    <script src="script.js" defer></script>
+  <script type="module" src="main.js" defer></script>
 </body>
 </html>
