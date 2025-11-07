@@ -16,6 +16,11 @@ function initializeNavigation() {
   const links = nav ? Array.from(nav.querySelectorAll('a')) : [];
   const currentPath = window.location.pathname.replace(/index\.html$/, '');
 
+  // Ensure the mobile menu starts in a closed state
+  nav?.classList.remove('is-open');
+  document.body.classList.remove('nav-is-open');
+  toggle?.setAttribute('aria-expanded', 'false');
+
   links.forEach(link => {
     const href = new URL(link.href).pathname.replace(/index\.html$/, '');
     if (href === currentPath || (href === '/' && currentPath === '')) {
@@ -23,17 +28,23 @@ function initializeNavigation() {
     } else {
       link.classList.remove('is-current');
     }
+    // Add click listener to close nav on link click
     link.addEventListener('click', () => {
       if (nav?.classList.contains('is-open')) {
         nav.classList.remove('is-open');
         toggle?.setAttribute('aria-expanded', 'false');
+        // Remove scroll-lock
+        document.body.classList.remove('nav-is-open');
       }
     });
   });
 
+  // Main toggle logic
   toggle?.addEventListener('click', () => {
     const isOpen = nav ? nav.classList.toggle('is-open') : false;
     toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+    // Add/remove scroll-lock
+    document.body.classList.toggle('nav-is-open', isOpen);
   });
 }
 
