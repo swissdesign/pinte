@@ -146,7 +146,12 @@ function handleNewsletter(e) {
   if (!sheet) {
     throw new Error('Newsletter sheet missing');
   }
-  const existing = sheet.getRange(2, 2, Math.max(sheet.getLastRow() - 1, 0), 1).getValues();
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) {
+    sheet.appendRow([new Date(), payload.email, payload.name || '', payload.consent === true]);
+    return;
+  }
+  const existing = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
   const isDuplicate = existing.some(row => row[0] && row[0].toString().toLowerCase() === payload.email.toLowerCase());
   if (!isDuplicate) {
     sheet.appendRow([new Date(), payload.email, payload.name || '', payload.consent === true]);
