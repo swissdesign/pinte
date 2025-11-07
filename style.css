@@ -768,13 +768,14 @@ textarea:focus-visible {
     /* This transform hides it off-screen by default */
     transform: translateY(-100%);
     transition: transform 0.3s ease;
-    /* Ensure it's above other content */
-    z-index: 998;
+    /* Ensure it's below other content */
+    z-index: 0;
   }
 
   /* This class, toggled by JS, slides the menu in */
   .primary-nav.is-open {
     transform: translateY(0);
+    z-index: 998;
   }
 
   .nav-toggle {
