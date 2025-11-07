@@ -120,7 +120,7 @@ function fetchEventsFromSheet({ limit = null, from = null, to = null }) {
       category: col.category !== undefined ? row[col.category] || '' : '',
       location: col.location !== undefined ? row[col.location] || '' : '',
       image: col.image !== undefined ? row[col.image] || '' : '',
-      ticketUrl: col.ticketurl !== undefined ? row[col.ticketurl] || '' : (col.ticket_url !== undefined ? row[col.ticket_url] || '' : '')
+      ticketUrl: row[col.ticketurl] || row[col.ticket_url] || ''
     };
     results.push(event);
   });
