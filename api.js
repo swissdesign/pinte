@@ -1,13 +1,13 @@
 import { getDemoEvents } from './script.js';
 
-const API_BASE = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+const API_BASE = 'https://script.google.com/macros/s/AKfycbzlPNUOVTFQZOvQCjU9DC68At8WDNFHqdw7XxXdJuf_00cyA_FfjWsyIYsGdW2q2NywLA/exec';
 
 function normaliseBase() {
   return API_BASE.endsWith('/') ? API_BASE.slice(0, -1) : API_BASE;
 }
 
 function isConfigured() {
-  return API_BASE && API_BASE !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+  return API_BASE && API_BASE !== 'https://script.google.com/macros/s/AKfycbzlPNUOVTFQZOvQCjU9DC68At8WDNFHqdw7XxXdJuf_00cyA_FfjWsyIYsGdW2q2NywLA/exec';
 }
 
 const METHODS_WITHOUT_BODY = new Set(['GET', 'HEAD', 'OPTIONS', 'TRACE']);
