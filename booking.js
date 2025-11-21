@@ -1,6 +1,6 @@
 import { submitBooking } from './api.js';
 
-const CONTACT_EMAIL = 'hello@pinte.amatt.ch';
+const CONTACT_EMAIL = 'info@pinte.club';
 
 let modal;
 let form;
